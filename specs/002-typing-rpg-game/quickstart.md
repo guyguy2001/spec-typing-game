@@ -28,6 +28,17 @@ This guide provides instructions to quickly set up and run the Godot project for
     *   Once in the Godot editor, you can run the main scene by clicking the "Play" button (looks like a triangle) in the top-right corner of the editor, or by pressing `F5`.
     *   The game should start in a new window, presenting the arena mode.
 
+## Gameplay
+
+*   **Abilities**:
+    *   Type **"fire"** + `Space`: Casts a damage bolt at the enemy (25 damage).
+    *   Type **"heal"** + `Space`: Applies a healing buff to the player (Green status icon).
+    *   Type **"slow"** + `Space`: Applies a slowing debuff to the enemy (Red status icon).
+*   **UI**:
+    *   **Ability List**: Shows available abilities and their cooldown status (top-left).
+    *   **Health Bars**: Displays current health for Player (bottom-left) and Enemy (bottom-right).
+    *   **Status Effects**: Active buffs/debuffs appear above the health bars.
+
 ## Project Structure Overview
 
 The core game logic and assets are organized as follows:

@@ -10,6 +10,7 @@ var health: float = max_health
 var active_status_effects: Array[StatusEffect] = []
 
 signal health_changed(new_health: float)
+signal damage_taken(amount: float)
 signal died()
 signal status_effect_applied(effect_name: String)
 signal status_effect_removed(effect_name: String)
@@ -22,6 +23,7 @@ func _ready() -> void:
 func _take_damage(amount: float) -> void:
     health = maxi(0, health - amount)
     emit_signal("health_changed", health)
+    emit_signal("damage_taken", amount)
     if health <= 0:
         emit_signal("died")
         queue_free() # Placeholder for character death

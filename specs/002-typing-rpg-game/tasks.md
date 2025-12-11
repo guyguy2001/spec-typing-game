@@ -87,10 +87,10 @@
 
 **Purpose**: Improvements that affect multiple user stories.
 
-- [ ] T023 Implement the ability cooldown display in `src/ui/hud.tscn`.
-- [ ] T024 [P] Implement visual feedback for successful and failed ability casts (e.g., simple particle effects or text popups).
-- [ ] T025 Implement the progressive difficulty system for typing patterns (e.g., by creating different `Ability` resources for different levels).
-- [ ] T026 Run `quickstart.md` validation to ensure setup instructions are correct.
+- [x] T023 Implement the ability cooldown display in `src/ui/hud.tscn`.
+- [x] T024 [P] Implement visual feedback for successful and failed ability casts (e.g., simple particle effects or text popups).
+- [-] T025 [Cancelled] Implement the progressive difficulty system for typing patterns (e.g., by creating different `Ability` resources for different levels).
+- [x] T026 Run `quickstart.md` validation to ensure setup instructions are correct.
 
 ---
 

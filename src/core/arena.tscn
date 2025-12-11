@@ -30,6 +30,7 @@ script = ExtResource("4_ddddd")
 [connection signal="health_changed" from="Player" to="HUD" method="update_player_health"]
 [connection signal="status_effect_applied" from="Player" to="HUD" method="add_player_effect"]
 [connection signal="status_effect_removed" from="Player" to="HUD" method="remove_player_effect"]
+[connection signal="ability_list_updated" from="Player" to="HUD" method="update_ability_list"]
 [connection signal="health_changed" from="Enemy" to="HUD" method="update_enemy_health"]
 [connection signal="status_effect_applied" from="Enemy" to="HUD" method="add_enemy_effect"]
 [connection signal="status_effect_removed" from="Enemy" to="HUD" method="remove_enemy_effect"]

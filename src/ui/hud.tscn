@@ -15,6 +15,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="AbilityList" type="Label" parent="MainLayout"]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 220.0
+offset_bottom = 200.0
+text = "Abilities:
+- Fire: Ready"
+
 [node name="PlayerStats" type="VBoxContainer" parent="MainLayout"]
 layout_mode = 1
 anchors_preset = 2
@@ -32,7 +41,7 @@ custom_minimum_size = Vector2(0, 32)
 
 [node name="PlaceholderBuff" parent="MainLayout/PlayerStats/StatusBar" instance=ExtResource("3_status_icon")]
 layout_mode = 2
-color = Color(0.2, 0.8, 0.2, 1.0)
+color = Color(0.2, 0.8, 0.2, 1)
 
 [node name="Label" parent="MainLayout/PlayerStats/StatusBar/PlaceholderBuff" index="0"]
 text = "BUF"
@@ -68,7 +77,7 @@ alignment = 2
 
 [node name="PlaceholderDebuff" parent="MainLayout/EnemyStats/StatusBar" instance=ExtResource("3_status_icon")]
 layout_mode = 2
-color = Color(0.8, 0.2, 0.2, 1.0)
+color = Color(0.8, 0.2, 0.2, 1)
 
 [node name="Label" parent="MainLayout/EnemyStats/StatusBar/PlaceholderDebuff" index="0"]
 text = "DBF"

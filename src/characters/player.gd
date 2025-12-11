@@ -9,6 +9,8 @@ class_name Player
 var current_typing_input: String = ""
 var target_enemy: Character = null # Will be set by the arena scene
 
+signal ability_list_updated(text: String)
+
 func _ready() -> void:
 	# You can call the parent's ready function if it has one.
 	super._ready()
@@ -60,11 +62,17 @@ func _on_input_handler_space_pressed() -> void:
 			else:
 				print("Ability %s is on cooldown." % ability.name)
 	
+	current_typing_input = "" # Always reset input after space or attempted cast
 	if not cast_successful:
 		print("No matching ability or target found for '%s'." % current_typing_input)
-		print("Abilities: %s" % abilities.map(func(a): a._get_typing_pattern().to_lower()))
-	current_typing_input = "" # Always reset input after space or attempted cast
 
 func _process_ability_cooldowns(delta: float) -> void:
+	var list_text = "Abilities:\n"
 	for ability in abilities:
 		ability._process_cooldown(delta)
+		var status = "Ready"
+		if not ability._is_ready():
+			status = "%.1fs" % ability._get_cooldown_remaining()
+		list_text += "- %s (%s): %s\n" % [ability.name, ability._get_typing_pattern(), status]
+	
+	emit_signal("ability_list_updated", list_text)

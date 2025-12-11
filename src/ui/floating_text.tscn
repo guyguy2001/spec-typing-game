@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/ui/floating_text.gd" id="1_text"]
+
+[node name="FloatingText" type="Label"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("1_text")
