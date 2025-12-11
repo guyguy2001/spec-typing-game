@@ -53,13 +53,13 @@
 
 ### Implementation for User Story 1
 
-- [ ] T011 [P] [US1] Create a concrete `DamageAbility` resource in `src/abilities/` that inherits from `ability.gd`.
-- [ ] T012 [P] [US1] Implement input handling logic in `src/core/input_handler.gd` to capture keyboard input.
-- [ ] T013 [US1] Integrate the `input_handler.gd` with the `player.gd` script to manage the `current_typing_input` state.
-- [ ] T014 [US1] Implement the ability casting logic in `player.gd` to trigger the `DamageAbility` when the typing pattern matches.
-- [ ] T015 [US1] Implement the `_take_damage` method in `character.gd` to reduce health.
-- [ ] T016 [P] [US1] Create a basic HUD scene in `src/ui/hud.tscn` for displaying player and enemy health bars.
-- [ ] T017 [US1] Integrate the `hud.tscn` into the `arena.tscn` and connect health signals from characters.
+- [x] T011 [P] [US1] Create a concrete `DamageAbility` resource in `src/abilities/` that inherits from `ability.gd`.
+- [x] T012 [P] [US1] Implement input handling logic in `src/core/input_handler.gd` to capture keyboard input.
+- [x] T013 [US1] Integrate the `input_handler.gd` with the `player.gd` script to manage the `current_typing_input` state.
+- [x] T014 [US1] Implement the ability casting logic in `player.gd` to trigger the `DamageAbility` when the typing pattern matches.
+- [x] T015 [US1] Implement the `_take_damage` method in `character.gd` to reduce health.
+- [x] T016 [P] [US1] Create a basic HUD scene in `src/ui/hud.tscn` for displaying player and enemy health bars.
+- [x] T017 [US1] Integrate the `hud.tscn` into the `arena.tscn` and connect health signals from characters.
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently.
 

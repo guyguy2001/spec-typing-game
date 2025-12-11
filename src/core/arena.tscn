@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="PackedScene" path="res://src/characters/player.tscn" id="1_aaaaa"]
 [ext_resource type="PackedScene" path="res://src/characters/enemy.tscn" id="2_bbbbb"]
 [ext_resource type="Script" path="res://src/core/state_machine.gd" id="3_ccccc"]
+[ext_resource type="Script" path="res://src/core/input_handler.gd" id="4_ddddd"]
+[ext_resource type="PackedScene" path="res://src/ui/hud.tscn" id="5_eeeee"]
+[ext_resource type="Script" path="res://src/core/arena.gd" id="6_fffff"]
 
 [node name="Arena" type="Node2D"]
+script = ExtResource("6_fffff")
 
 [node name="Player" parent="." instance=ExtResource("1_aaaaa")]
 position = Vector2(200, 500)
@@ -14,3 +18,14 @@ position = Vector2(800, 500)
 
 [node name="GameStateMachine" type="Node" parent="."]
 script = ExtResource("3_ccccc")
+
+[node name="InputHandler" type="Node" parent="."]
+script = ExtResource("4_ddddd")
+
+[node name="HUD" parent="." instance=ExtResource("5_eeeee")]
+
+[connection signal="text_input" from="InputHandler" to="Player" method="_on_input_handler_text_input"]
+[connection signal="backspace_pressed" from="InputHandler" to="Player" method="_on_input_handler_backspace_pressed"]
+[connection signal="space_pressed" from="InputHandler" to="Player" method="_on_input_handler_space_pressed"]
+[connection signal="health_changed" from="Player" to="HUD" method="update_player_health"]
+[connection signal="health_changed" from="Enemy" to="HUD" method="update_enemy_health"]
