@@ -73,11 +73,11 @@
 
 ### Implementation for User Story 2
 
-- [ ] T018 [P] [US2] Create a concrete `BuffAbility` resource in `src/abilities/` that creates and applies a `StatusEffect`.
-- [ ] T019 [P] [US2] Create a concrete `DebuffAbility` resource in `src/abilities/` that creates and applies a `StatusEffect`.
-- [ ] T020 [US2] Implement the logic in `character.gd` to apply, process (e.g., tick down duration), and remove `StatusEffect`s.
-- [ ] T021 [P] [US2] Create a UI component in `src/ui/` to display status effect icons.
-- [ ] T022 [US2] Update the `hud.tscn` to include the status effect display for the player and enemy.
+- [x] T018 [P] [US2] Create a concrete `BuffAbility` resource in `src/abilities/` that creates and applies a `StatusEffect`.
+- [x] T019 [P] [US2] Create a concrete `DebuffAbility` resource in `src/abilities/` that creates and applies a `StatusEffect`.
+- [x] T020 [US2] Implement the logic in `character.gd` to apply, process (e.g., tick down duration), and remove `StatusEffect`s.
+- [x] T021 [P] [US2] Create a UI component in `src/ui/` to display status effect icons.
+- [x] T022 [US2] Update the `hud.tscn` to include the status effect display for the player and enemy.
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently.
 

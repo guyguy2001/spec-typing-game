@@ -28,4 +28,8 @@ script = ExtResource("4_ddddd")
 [connection signal="backspace_pressed" from="InputHandler" to="Player" method="_on_input_handler_backspace_pressed"]
 [connection signal="space_pressed" from="InputHandler" to="Player" method="_on_input_handler_space_pressed"]
 [connection signal="health_changed" from="Player" to="HUD" method="update_player_health"]
+[connection signal="status_effect_applied" from="Player" to="HUD" method="add_player_effect"]
+[connection signal="status_effect_removed" from="Player" to="HUD" method="remove_player_effect"]
 [connection signal="health_changed" from="Enemy" to="HUD" method="update_enemy_health"]
+[connection signal="status_effect_applied" from="Enemy" to="HUD" method="add_enemy_effect"]
+[connection signal="status_effect_removed" from="Enemy" to="HUD" method="remove_enemy_effect"]

@@ -6,18 +6,27 @@ class_name StatusEffect
 enum StatusEffectType { BUFF, DEBUFF }
 
 # Represents the type of attribute modified by the status effect.
-enum ModifierType { DAMAGE, SPEED, DEFENSE, GENERIC_EFFECT_VALUE } # Added GENERIC_EFFECT_VALUE for flexibility
+enum ModifierType { DAMAGE, SPEED, DEFENSE, GENERIC_EFFECT_VALUE }
 
 @export var name: String = ""
 @export var type: StatusEffectType = StatusEffectType.BUFF
-@export var duration: float = 0.0 # 0.0 for permanent until removed
+
+# Use a setter to ensure time_remaining is always synced with duration upon initialization
+@export var duration: float = 0.0:
+    set(value):
+        duration = value
+        # Only sync if time_remaining hasn't been ticked down yet (or is 0)
+        # This allows resetting duration by just setting 'duration' again.
+        time_remaining = value
+
 @export var modifier_type: ModifierType = ModifierType.GENERIC_EFFECT_VALUE
 @export var modifier_value: float = 0.0
 
 var time_remaining: float = 0.0
 
-func _init() -> void:
-    time_remaining = duration
+func _init(p_duration: float = 0.0) -> void:
+    duration = p_duration
+    time_remaining = p_duration
 
 func _process(delta: float) -> void:
     if duration > 0: # Only tick down if not permanent

@@ -17,7 +17,14 @@ func _ready() -> void:
 	if abilities.is_empty():
 		var fire_ability = DamageAbility.new()
 		abilities.append(fire_ability)
-		print("Added default Fire ability to Player.")
+		
+		var heal_ability = BuffAbility.new()
+		abilities.append(heal_ability)
+		
+		var slow_ability = DebuffAbility.new()
+		abilities.append(slow_ability)
+		
+		print("Added default Fire, Heal, and Slow abilities to Player.")
 
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta) # Call parent's physics_process for status effects

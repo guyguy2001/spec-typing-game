@@ -35,6 +35,7 @@ func _apply_status_effect(effect: StatusEffect) -> void:
             return
     
     active_status_effects.append(effect)
+    print("%s applied status effect: %s" % [character_name, effect.name])
     emit_signal("status_effect_applied", effect.name)
 
 func _remove_status_effect(effect_name: String) -> void:
