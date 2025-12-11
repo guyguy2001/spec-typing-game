@@ -9,7 +9,8 @@ class_name Player
 var current_typing_input: String = ""
 var target_enemy: Character = null # Will be set by the arena scene
 
-signal ability_list_updated(text: String)
+signal abilities_setup(abilities: Array)
+signal abilities_updated(abilities: Array)
 
 func _ready() -> void:
 	# You can call the parent's ready function if it has one.
@@ -27,6 +28,9 @@ func _ready() -> void:
 		abilities.append(slow_ability)
 		
 		print("Added default Fire, Heal, and Slow abilities to Player.")
+	
+	# Defer signal emission to ensure HUD is ready
+	call_deferred("emit_signal", "abilities_setup", abilities)
 
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta) # Call parent's physics_process for status effects
@@ -67,12 +71,7 @@ func _on_input_handler_space_pressed() -> void:
 		print("No matching ability or target found for '%s'." % current_typing_input)
 
 func _process_ability_cooldowns(delta: float) -> void:
-	var list_text = "Abilities:\n"
 	for ability in abilities:
 		ability._process_cooldown(delta)
-		var status = "Ready"
-		if not ability._is_ready():
-			status = "%.1fs" % ability._get_cooldown_remaining()
-		list_text += "- %s (%s): %s\n" % [ability.name, ability._get_typing_pattern(), status]
 	
-	emit_signal("ability_list_updated", list_text)
+	emit_signal("abilities_updated", abilities)

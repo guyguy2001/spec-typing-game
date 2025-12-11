@@ -53,8 +53,8 @@ As a player, I want to cast abilities that apply beneficial buffs to myself or d
 - **FR-002**: Players MUST be able to cast abilities by typing character sequences.
 - **FR-003**: Each ability MUST have a unique effect (e.g., dealing damage, applying a buff, applying a debuff).
 - **FR-004**: Each ability MUST have an independent cooldown period that begins after a successful cast.
-- **FR-005**: The UI MUST clearly display available abilities and their cooldown status.
-- **FR-006**: The system MUST provide clear visual feedback for successful and failed ability casts.
+- **FR-005**: The UI MUST display available abilities in a "WoW-style" action bar, featuring icons for each ability and a radial overlay to indicate cooldown status.
+- **FR-006**: The system MUST provide clear visual feedback for combat events, specifically using floating text for damage numbers and status application.
 - **FR-007**: The typing difficulty MUST progress with the player. Early abilities are cast with a single letter. Later abilities are cast by typing short words, with the cast executed upon pressing the spacebar.
 - **FR-008**: Players MUST acquire new abilities from a fixed spellbook that automatically unlocks at pre-defined player levels.
 - **FR-009**: The game world MUST consist of a single arena where the player fights against waves of enemies.
