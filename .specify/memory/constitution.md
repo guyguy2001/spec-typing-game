@@ -1,50 +1,40 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+- Version change: None -> 1.0.0
+- Added sections:
+  - Core Principles
+  - Development Workflow
+  - Governance
+- Modified principles: N/A
+- Removed sections:
+  - Removed placeholder sections for Principle 5, Section 3.
+- Templates requiring updates:
+  - ✅ .specify/templates/plan-template.md (No update needed, compatible)
+  - ✅ .specify/templates/spec-template.md (No update needed, compatible)
+  - ✅ .specify/templates/tasks-template.md (No update needed, compatible)
+-->
+# spec-typing-game Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Uncompromising Code Quality
+All code must be clear, maintainable, and adhere to established style guides. Code should be written to be easily understood by other developers, prioritizing readability and simplicity over cleverness.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Rigorous Testing Standards
+A comprehensive suite of tests (unit, integration, and end-to-end) is mandatory for all features. Test-Driven Development (TDD) is the preferred methodology to ensure that requirements are met and the codebase remains robust.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Flexible Design Exploration
+The system's architecture must support iterative development and experimentation. Employ modular design and dependency injection to allow for components to be easily swapped or refactored, enabling efficient exploration of the design space.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Performance by Design
+Performance is a core requirement, not an afterthought. Performance goals and metrics must be defined early in the development process, and all implementation choices should be weighed against their performance impact.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+## Development Workflow
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
-
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
-
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+The standard workflow for introducing features is to progress through specification, planning, task breakdown, and finally implementation. This ensures clarity and alignment before code is written.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+All code contributions must be reviewed for compliance with this constitution. Any deviation from these principles requires explicit justification and approval.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2025-12-11 | **Last Amended**: 2025-12-11
