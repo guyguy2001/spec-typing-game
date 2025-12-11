@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://src/characters/player.tscn" id="1_aaaaa"]
+[ext_resource type="PackedScene" path="res://src/characters/enemy.tscn" id="2_bbbbb"]
+[ext_resource type="Script" path="res://src/core/state_machine.gd" id="3_ccccc"]
+
+[node name="Arena" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_aaaaa")]
+position = Vector2(200, 500)
+
+[node name="Enemy" parent="." instance=ExtResource("2_bbbbb")]
+position = Vector2(800, 500)
+
+[node name="GameStateMachine" type="Node" parent="."]
+script = ExtResource("3_ccccc")
