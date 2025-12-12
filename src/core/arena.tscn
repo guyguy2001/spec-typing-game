@@ -1,14 +1,15 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://444vkf1rlic4"]
 
 [ext_resource type="PackedScene" path="res://src/characters/player.tscn" id="1_aaaaa"]
 [ext_resource type="PackedScene" path="res://src/characters/enemy.tscn" id="2_bbbbb"]
-[ext_resource type="Script" path="res://src/core/state_machine.gd" id="3_ccccc"]
-[ext_resource type="Script" path="res://src/core/input_handler.gd" id="4_ddddd"]
+[ext_resource type="Script" uid="uid://di3sc4j537bte" path="res://src/core/state_machine.gd" id="3_ccccc"]
+[ext_resource type="Script" uid="uid://8q0tllrdpqxg" path="res://src/core/input_handler.gd" id="4_ddddd"]
 [ext_resource type="PackedScene" path="res://src/ui/hud.tscn" id="5_eeeee"]
-[ext_resource type="Script" path="res://src/core/arena.gd" id="6_fffff"]
+[ext_resource type="Script" uid="uid://btpks6xxmuk6u" path="res://src/core/arena.gd" id="6_fffff"]
 
 [node name="Arena" type="Node2D"]
 script = ExtResource("6_fffff")
+enemy_scene = ExtResource("2_bbbbb")
 
 [node name="Player" parent="." instance=ExtResource("1_aaaaa")]
 position = Vector2(200, 500)
@@ -24,14 +25,14 @@ script = ExtResource("4_ddddd")
 
 [node name="HUD" parent="." instance=ExtResource("5_eeeee")]
 
-[connection signal="text_input" from="InputHandler" to="Player" method="_on_input_handler_text_input"]
-[connection signal="backspace_pressed" from="InputHandler" to="Player" method="_on_input_handler_backspace_pressed"]
-[connection signal="space_pressed" from="InputHandler" to="Player" method="_on_input_handler_space_pressed"]
+[connection signal="abilities_setup" from="Player" to="HUD" method="setup_abilities"]
+[connection signal="abilities_updated" from="Player" to="HUD" method="update_abilities"]
 [connection signal="health_changed" from="Player" to="HUD" method="update_player_health"]
 [connection signal="status_effect_applied" from="Player" to="HUD" method="add_player_effect"]
 [connection signal="status_effect_removed" from="Player" to="HUD" method="remove_player_effect"]
-[connection signal="abilities_setup" from="Player" to="HUD" method="setup_abilities"]
-[connection signal="abilities_updated" from="Player" to="HUD" method="update_abilities"]
 [connection signal="health_changed" from="Enemy" to="HUD" method="update_enemy_health"]
 [connection signal="status_effect_applied" from="Enemy" to="HUD" method="add_enemy_effect"]
 [connection signal="status_effect_removed" from="Enemy" to="HUD" method="remove_enemy_effect"]
+[connection signal="backspace_pressed" from="InputHandler" to="Player" method="_on_input_handler_backspace_pressed"]
+[connection signal="space_pressed" from="InputHandler" to="Player" method="_on_input_handler_space_pressed"]
+[connection signal="text_input" from="InputHandler" to="Player" method="_on_input_handler_text_input"]
