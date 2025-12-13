@@ -21,8 +21,8 @@
 
 **Purpose**: Prepare project structure for new components.
 
-- [x] T001 Create `src/ai/` directory for AI scripts.
-- [x] T002 Create `src/ui/game_over.tscn` placeholder scene.
+- [x] T001 Create `src/ai/` directory.
+- [ ] T002 Create `src/ui/game_over.tscn` placeholder scene.
 
 ---
 
@@ -30,8 +30,10 @@
 
 **Purpose**: Core infrastructure updates required for the combat loop.
 
-- [x] T003 Refactor `src/core/arena.gd` to support dynamic enemy spawning (add `spawn_enemy` function, remove hardcoded `@onready var enemy`).
+- [x] T003 Refactor `src/core/arena.gd` to support dynamic enemy spawning.
 - [x] T004 [P] Create `src/ai/enemy_ai_controller.gd` script skeleton.
+- [x] T005 Create `src/ai/enemy_ai_controller.tscn`.
+- [x] T006 Update `src/characters/enemy.tscn` to instance `enemy_ai_controller.tscn`.
 
 **Checkpoint**: Core systems ready for logic implementation.
 
@@ -45,10 +47,9 @@
 
 ### Implementation for User Story 1
 
-- [x] T005 [US1] Implement `EnemyAIController` logic in `src/ai/enemy_ai_controller.gd` (Timer + Attack logic).
-- [x] T006 [US1] Create a concrete `EnemyAttackAbility` resource in `src/abilities/enemy_attack.gd` (or reuse DamageAbility with specific values).
-- [x] T007 [US1] Attach `EnemyAIController` node/script to `src/characters/enemy.tscn` and assign the attack ability.
-- [ ] T008 [US1] Ensure `EnemyAIController` calls `ability._cast` on the Player target.
+- [x] T007 Implement `EnemyAIController` logic in `src/ai/enemy_ai_controller.gd`.
+- [x] T008 Create a concrete `EnemyAttackAbility` resource in `src/abilities/enemy_attack.gd`.
+- [x] T009 Assign `EnemyAttackAbility` to `EnemyAIController` in `src/characters/enemy.tscn` (by setting the exported property in the scene).
 
 **Checkpoint**: The enemy is now dangerous.
 
@@ -62,9 +63,9 @@
 
 ### Implementation for User Story 2
 
-- [ ] T009 [US2] Update `src/core/arena.gd` to listen for the `died` signal from spawned enemies.
-- [ ] T010 [US2] Implement `_on_enemy_died` logic in `src/core/arena.gd` (queue_free old enemy, start timer, spawn new enemy).
-- [ ] T011 [US2] Update `src/core/arena.tscn` to remove the hardcoded Enemy node (it will be spawned by script).
+- [ ] T010 Update `src/core/arena.gd` to listen for the `died` signal from spawned enemies.
+- [ ] T011 Implement `_on_enemy_died` logic in `src/core/arena.gd` (queue_free old enemy, start timer, spawn new enemy).
+- [ ] T012 Update `src/core/arena.tscn` to remove the hardcoded Enemy node (it will be spawned by script).
 
 **Checkpoint**: The game is now an endless loop.
 
@@ -78,10 +79,10 @@
 
 ### Implementation for User Story 3
 
-- [ ] T012 [P] [US3] Implement `src/ui/game_over.tscn` UI (Label "Game Over", Button "Restart").
-- [ ] T013 [P] [US3] Create `src/ui/game_over.gd` to handle the Restart button (reload scene).
-- [ ] T014 [US3] Update `src/core/arena.gd` to listen for `Player.died`.
-- [ ] T015 [US3] Implement `_on_player_died` in `src/core/arena.gd` to instantiate/show `GameOver` scene and pause the game (or stop input).
+- [ ] T013 [P] [US3] Implement `src/ui/game_over.tscn` UI (Label "Game Over", Button "Restart").
+- [ ] T014 [P] [US3] Create `src/ui/game_over.gd` to handle the Restart button (reload scene).
+- [ ] T015 [US3] Update `src/core/arena.gd` to listen for `Player.died`.
+- [ ] T016 [US3] Implement `_on_player_died` in `src/core/arena.gd` to instantiate/show `GameOver` scene and pause the game (or stop input).
 
 **Checkpoint**: The game has a win (survival) and loss state.
 
@@ -95,10 +96,10 @@
 
 ### Implementation for User Story 4
 
-- [ ] T016 [P] [US4] Create `src/ui/target_indicator.tscn` (e.g., a simple Sprite or ColorRect arrow).
-- [ ] T017 [US4] Update `src/core/input_handler.gd` to capture `KEY_TAB` and emit `tab_pressed`.
-- [ ] T018 [US4] Update `src/core/arena.gd` to spawn multiple enemies at start (e.g., 2).
-- [ ] T019 [US4] Implement targeting logic in `src/core/arena.gd` (or Player):
+- [ ] T017 [P] [US4] Create `src/ui/target_indicator.tscn` (e.g., a simple Sprite or ColorRect arrow).
+- [ ] T018 [US4] Update `src/core/input_handler.gd` to capture `KEY_TAB` and emit `tab_pressed`.
+- [ ] T019 [US4] Update `src/core/arena.gd` to spawn multiple enemies at start (e.g., 2).
+- [ ] T020 [US4] Implement targeting logic in `src/core/arena.gd` (or Player):
     - Maintain list of enemies.
     - On `tab_pressed`, cycle `player.target_enemy` to next in list.
     - Move `TargetIndicator` to new target.
@@ -111,8 +112,8 @@
 
 **Purpose**: Improvements and validation.
 
-- [ ] T020 Run `quickstart.md` validation.
-- [ ] T021 [P] Ensure floating text works for Enemy attacks too.
+- [ ] T021 Run `quickstart.md` validation.
+- [ ] T022 [P] Ensure floating text works for Enemy attacks too.
 
 ---
 
