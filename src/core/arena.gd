@@ -15,6 +15,7 @@ const EnemyAttackAbility = preload("res://src/abilities/enemy_attack.gd")
 
 var enemies: Array[Enemy] = []
 var target_indicator: TargetIndicator = null
+var spawn_points: Array[Node] = []
 
 func _ready() -> void:
 	if player and hud:
@@ -38,9 +39,12 @@ func _ready() -> void:
 		if input_handler:
 			input_handler.connect("tab_pressed", Callable(self, "cycle_target"))
 		
+		# Get spawn points
+		spawn_points = get_tree().get_nodes_in_group("spawn_point")
+		
 		# Spawn initial enemies
-		spawn_enemy(Vector2(700, 400))
-		spawn_enemy(Vector2(900, 600))
+		spawn_enemy(spawn_points[0].position)
+		spawn_enemy(spawn_points[1].position)
 		
 		# Setup Target Indicator
 		if target_indicator_scene:
@@ -79,7 +83,7 @@ func spawn_enemy(spawn_pos: Vector2 = Vector2(800, 500)) -> void:
 		# Note: HUD currently only supports ONE enemy health bar.
 		# For multi-enemy, we ideally need dynamically targeted health bar.
 		# For MVP, we will only connect the CURRENT target's health to HUD in _set_player_target
-		pass 
+		pass
 	
 	enemies.append(new_enemy)
 	
@@ -158,8 +162,11 @@ func _on_enemy_died(enemy_node: Enemy) -> void:
 
 
 func _on_respawn_timer_timeout() -> void:
-	# Spawn at a randomish location or alternating
 	var spawn_pos = Vector2(randf_range(600, 900), randf_range(300, 600))
+	if not spawn_points.is_empty():
+		var random_point = spawn_points[randi() % spawn_points.size()]
+		spawn_pos = random_point.position
+	
 	spawn_enemy(spawn_pos)
 
 func _on_player_died() -> void:

@@ -1,12 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://0b3xms7oodba"]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" uid="uid://htt1on3a8auj" path="res://src/ui/target_indicator.gd" id="1_gd"]
+[ext_resource type="Script" path="res://src/ui/target_indicator.gd" id="1_gd"]
 
-[node name="TargetIndicator" type="ColorRect"]
+[node name="TargetIndicator" type="Control"]
 custom_minimum_size = Vector2(64, 64)
 offset_left = -32.0
 offset_top = -32.0
 offset_right = 32.0
 offset_bottom = 32.0
-color = Color(1, 1, 0, 0.5)
+z_index = -1
 script = ExtResource("1_gd")

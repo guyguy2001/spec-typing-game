@@ -1,13 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://444vkf1rlic4"]
+[gd_scene load_steps=10 format=3 uid="uid://444vkf1rlic4"]
 
-[ext_resource type="PackedScene" path="res://src/characters/player.tscn" id="1_aaaaa"]
-[ext_resource type="PackedScene" path="res://src/characters/enemy.tscn" id="2_bbbbb"]
+[ext_resource type="PackedScene" uid="uid://c2vc6r7uq8daq" path="res://src/characters/player.tscn" id="1_aaaaa"]
+[ext_resource type="PackedScene" uid="uid://bu6da32lekbo8" path="res://src/characters/enemy.tscn" id="2_bbbbb"]
 [ext_resource type="Script" uid="uid://di3sc4j537bte" path="res://src/core/state_machine.gd" id="3_ccccc"]
 [ext_resource type="Script" uid="uid://8q0tllrdpqxg" path="res://src/core/input_handler.gd" id="4_ddddd"]
 [ext_resource type="PackedScene" path="res://src/ui/hud.tscn" id="5_eeeee"]
 [ext_resource type="Script" uid="uid://btpks6xxmuk6u" path="res://src/core/arena.gd" id="6_fffff"]
 [ext_resource type="PackedScene" path="res://src/ui/game_over.tscn" id="7_game_over"]
 [ext_resource type="PackedScene" path="res://src/ui/target_indicator.tscn" id="8_target_ind"]
+[ext_resource type="Texture2D" uid="uid://bsps7dbic47to" path="res://sprites/background2.jpg" id="10_lnyqv"]
 
 [node name="Arena" type="Node2D"]
 script = ExtResource("6_fffff")
@@ -15,8 +16,18 @@ enemy_scene = ExtResource("2_bbbbb")
 game_over_ui_scene = ExtResource("7_game_over")
 target_indicator_scene = ExtResource("8_target_ind")
 
+[node name="Background" type="TextureRect" parent="."]
+z_index = -1
+offset_left = -1.0
+offset_top = -2.0
+offset_right = 1150.6666
+offset_bottom = 689.0
+mouse_filter = 2
+texture = ExtResource("10_lnyqv")
+expand_mode = 1
+
 [node name="Player" parent="." instance=ExtResource("1_aaaaa")]
-position = Vector2(200, 500)
+position = Vector2(288, 536)
 
 [node name="GameStateMachine" type="Node" parent="."]
 script = ExtResource("3_ccccc")
@@ -26,10 +37,23 @@ script = ExtResource("4_ddddd")
 
 [node name="HUD" parent="." instance=ExtResource("5_eeeee")]
 
+[node name="Control" type="Panel" parent="HUD"]
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="RespawnTimer" type="Timer" parent="."]
-wait_time = 1.0
 one_shot = true
-autostart = false
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="Node2D" type="Node2D" parent="SpawnPoints" groups=["spawn_point"]]
+position = Vector2(454, 447)
+
+[node name="Node2D2" type="Node2D" parent="SpawnPoints" groups=["spawn_point"]]
+position = Vector2(645, 404)
+
+[node name="Node2D3" type="Node2D" parent="SpawnPoints" groups=["spawn_point"]]
+position = Vector2(538, 384)
 
 [connection signal="backspace_pressed" from="InputHandler" to="Player" method="_on_input_handler_backspace_pressed"]
 [connection signal="space_pressed" from="InputHandler" to="Player" method="_on_input_handler_space_pressed"]
