@@ -13,8 +13,9 @@ func _init() -> void:
     cooldown_duration = 10.0
     description = "A basic debuff ability."
 
-func _cast(caster: Node, target: Node) -> void:
-    if not _is_ready():
+func cast(caster: Node, target: Node) -> void:
+    print("DebuffAbility: Cast method called. Caster: %s, Target: %s" % [caster.name, target.name])
+    if not is_ready():
         print("Debuff Ability %s on cooldown." % name)
         return
 
@@ -29,7 +30,7 @@ func _cast(caster: Node, target: Node) -> void:
     effect.modifier_type = stat_to_debuff
     effect.modifier_value = effect_value
     
-    if target and target.has_method("_apply_status_effect"):
-        target._apply_status_effect(effect)
+    if target and target.has_method("apply_status_effect"):
+        target.apply_status_effect(effect)
     
-    _start_cooldown()
+    start_cooldown()

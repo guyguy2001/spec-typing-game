@@ -20,7 +20,7 @@ func _ready() -> void:
     health = max_health
 
 # Interface methods from ICharacter
-func _take_damage(amount: float) -> void:
+func take_damage(amount: float) -> void:
     health = maxi(0, health - amount)
     emit_signal("health_changed", health)
     emit_signal("damage_taken", amount)
@@ -28,7 +28,7 @@ func _take_damage(amount: float) -> void:
         emit_signal("died")
         queue_free() # Placeholder for character death
 
-func _apply_status_effect(effect: StatusEffect) -> void:
+func apply_status_effect(effect: StatusEffect) -> void:
     # Check if effect already exists and handle stacking/refreshing
     for i in range(active_status_effects.size()):
         if active_status_effects[i].name == effect.name:
@@ -40,7 +40,7 @@ func _apply_status_effect(effect: StatusEffect) -> void:
     print("%s applied status effect: %s" % [character_name, effect.name])
     emit_signal("status_effect_applied", effect.name)
 
-func _remove_status_effect(effect_name: String) -> void:
+func remove_status_effect(effect_name: String) -> void:
     var index_to_remove = -1
     for i in range(active_status_effects.size()):
         if active_status_effects[i].name == effect_name:
@@ -51,7 +51,7 @@ func _remove_status_effect(effect_name: String) -> void:
         active_status_effects.remove_at(index_to_remove)
         emit_signal("status_effect_removed", effect_name)
 
-func _get_health() -> float:
+func get_health() -> float:
     return health
 
 func _process(delta: float) -> void:
@@ -63,9 +63,9 @@ func _physics_process(delta: float) -> void:
 func _process_status_effects(delta: float) -> void:
     var effects_to_remove: Array = []
     for effect in active_status_effects:
-        effect._process(delta) # Let the effect tick down its own timer
+        effect.tick(delta) # Let the effect tick down its own timer
         if not effect.is_active():
             effects_to_remove.append(effect.name)
     
     for effect_name in effects_to_remove:
-        _remove_status_effect(effect_name)
+        remove_status_effect(effect_name)

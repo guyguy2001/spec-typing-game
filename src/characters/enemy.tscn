@@ -1,11 +1,10 @@
 [gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://src/characters/enemy.gd" id="1_cde34"]
-[ext_resource type="Script" path="res://src/ai/enemy_ai_controller.gd" id="2_ai"]
+[ext_resource type="PackedScene" path="res://src/ai/enemy_ai_controller.tscn" id="2_ai_scene"]
 [ext_resource type="Script" path="res://src/abilities/enemy_attack.gd" id="3_attack"]
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_cde34")
 
-[node name="EnemyAIController" type="Node" parent="."]
-script = ExtResource("2_ai")
+[node name="EnemyAIController" parent="." instance=ExtResource("2_ai_scene")]

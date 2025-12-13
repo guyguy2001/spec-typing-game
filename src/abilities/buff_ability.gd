@@ -13,8 +13,9 @@ func _init() -> void:
     cooldown_duration = 8.0
     description = "A basic buff ability."
 
-func _cast(caster: Node, target: Node) -> void:
-    if not _is_ready():
+func cast(caster: Node, target: Node) -> void:
+    print("BuffAbility: Cast method called. Caster: %s, Target: %s" % [caster.name, target.name])
+    if not is_ready():
         print("Buff Ability %s on cooldown." % name)
         return
 
@@ -24,6 +25,7 @@ func _cast(caster: Node, target: Node) -> void:
     
     print("%s casts %s on %s." % [caster.character_name, name, apply_target.character_name])
     
+    
     # Create the effect
     var effect = StatusEffect.new()
     effect.name = name # Use ability name as effect name
@@ -32,7 +34,7 @@ func _cast(caster: Node, target: Node) -> void:
     effect.modifier_type = stat_to_buff
     effect.modifier_value = effect_value
     
-    if apply_target.has_method("_apply_status_effect"):
-        apply_target._apply_status_effect(effect)
+    if apply_target.has_method("apply_status_effect"):
+        apply_target.apply_status_effect(effect)
     
-    _start_cooldown()
+    start_cooldown()

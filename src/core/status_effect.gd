@@ -28,7 +28,7 @@ func _init(p_duration: float = 0.0) -> void:
     duration = p_duration
     time_remaining = p_duration
 
-func _process(delta: float) -> void:
+func tick(delta: float) -> void:
     if duration > 0: # Only tick down if not permanent
         time_remaining -= delta
         if time_remaining < 0:

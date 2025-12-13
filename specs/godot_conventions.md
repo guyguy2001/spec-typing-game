@@ -32,6 +32,10 @@ This document outlines the preferred conventions and practices for Godot (GDScri
 - Use `@export` for properties intended to be configured via the Inspector in the editor.
 - Avoid `var my_variable: Type = value` for `@export` if the value is meant to be configured in the editor. Prefer `var my_variable: Type` or `var my_variable: Type = preload(...)` for resources.
 
+### 4. Variable/Method usage
+
+- Avoid using private methods and fields on other objects (those that start with an `_`) - re-consider if they should be used, and if so, consider making them public.
+
 ## III. Scene vs. Code
 
 ### 1. Node Instantiation (Child Nodes)
@@ -41,11 +45,14 @@ This document outlines the preferred conventions and practices for Godot (GDScri
 
 ### 2. Signal Connections
 
-- **Preferred (Code)**: Signals should always be connected via code, instead of the editor, unless there is a specific special reason this is undesirable.
+- **Preferred (Code)**: Signals MUST always be connected via code, instead of the editor, unless there is a specific special reason this is undesirable. This applies especially to dynamic nodes.
+- **Signal Handlers**: Methods receiving signals are split into 2 categories:
+  - Methods which are responsible for handling the signal, and might perform a lot of different actions (e.g. handling all of the effects of taking damage). These MUST start with the `_on_` prefix, and should be private.
+  - Normal methods, which have a clear responsibility that could (theoretically or practically) be called in different circumstances (and not just from signals). These functions should behave like regular methods, and may be public if needed.
 
 ### 3. Timers
 
-- **Preferred (Editor)**: Timers will be created by default in the editor (in agent cases, directly in the .tscn files), but their signals will be connected in the code.
+- **Preferred (Editor)**: Timers will be created by default in the editor (in agent cases, directly in the .tscn files), and all of their properties should be defined in the editor. However, their signals will still be connected in the code.
 - **Code**: If the timer needs to be created dynamically, it can be created from the code.
 
 ## IV. Resources

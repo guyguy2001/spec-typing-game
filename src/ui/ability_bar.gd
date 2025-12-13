@@ -27,4 +27,4 @@ func setup(abilities: Array) -> void:
 func update_cooldowns(abilities: Array) -> void:
     for ability in abilities:
         if icon_map.has(ability.name):
-            icon_map[ability.name].update_cooldown(ability._get_cooldown_remaining(), ability.cooldown_duration)
+            icon_map[ability.name].update_cooldown(ability.get_cooldown_remaining(), ability.cooldown_duration)

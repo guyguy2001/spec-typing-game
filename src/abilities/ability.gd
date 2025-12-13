@@ -3,7 +3,7 @@ extends Resource
 class_name Ability
 
 # Represents the type of effect an ability has.
-enum EffectType { DAMAGE, BUFF, DEBUFF }
+enum EffectType {DAMAGE, BUFF, DEBUFF}
 
 @export var name: String = ""
 @export var typing_pattern: String = ""
@@ -26,8 +26,8 @@ func _init() -> void:
     pass
 
 # Interface methods from IAbility (adapted for a Resource)
-func _cast(caster: Node, target: Node) -> void:
-    if not _is_ready():
+func cast(caster: Node, target: Node) -> void:
+    if not is_ready():
         #emit_signal("ability_cast_failed", name, "On Cooldown")
         print("Ability %s on cooldown." % name)
         return
@@ -36,29 +36,29 @@ func _cast(caster: Node, target: Node) -> void:
     # Placeholder for actual effect logic
     match effect_type:
         EffectType.DAMAGE:
-            if target and target.has_method("_take_damage"):
-                target._take_damage(effect_value)
+            if target and target.has_method("take_damage"):
+                target.take_damage(effect_value)
         EffectType.BUFF, EffectType.DEBUFF:
             # Requires StatusEffect implementation
             print("Applying %s effect (requires StatusEffect implementation)" % effect_type)
 
-    _start_cooldown()
+    start_cooldown()
     #emit_signal("ability_cast_success", name)
 
-func _get_cooldown_remaining() -> float:
+func get_cooldown_remaining() -> float:
     return _current_cooldown
 
-func _is_ready() -> bool:
+func is_ready() -> bool:
     return _current_cooldown <= 0.0
 
-func _get_typing_pattern() -> String:
+func get_typing_pattern() -> String:
     return typing_pattern
 
-func _start_cooldown() -> void:
+func start_cooldown() -> void:
     _current_cooldown = cooldown_duration
     #emit_signal("cooldown_started", name, cooldown_duration)
 
-func _process_cooldown(delta: float) -> void:
+func process_cooldown(delta: float) -> void:
     if _current_cooldown > 0:
         _current_cooldown -= delta
         if _current_cooldown < 0:
