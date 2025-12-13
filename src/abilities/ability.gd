@@ -23,44 +23,44 @@ signal cooldown_updated(ability_name: String, remaining: float)
 
 
 func _init() -> void:
-    pass
+	pass
 
 # Interface methods from IAbility (adapted for a Resource)
 func cast(caster: Node, target: Node) -> void:
-    if not is_ready():
-        #emit_signal("ability_cast_failed", name, "On Cooldown")
-        print("Ability %s on cooldown." % name)
-        return
+	if not is_ready():
+		#emit_signal("ability_cast_failed", name, "On Cooldown")
+		print("Ability %s on cooldown." % name)
+		return
 
-    print("Casting %s from %s to %s" % [name, caster.name, target.name])
-    # Placeholder for actual effect logic
-    match effect_type:
-        EffectType.DAMAGE:
-            if target and target.has_method("take_damage"):
-                target.take_damage(effect_value)
-        EffectType.BUFF, EffectType.DEBUFF:
-            # Requires StatusEffect implementation
-            print("Applying %s effect (requires StatusEffect implementation)" % effect_type)
+	print("Casting %s from %s to %s" % [name, caster.name, target.name])
+	# Placeholder for actual effect logic
+	match effect_type:
+		EffectType.DAMAGE:
+			if target and target.has_method("take_damage"):
+				target.take_damage(effect_value)
+		EffectType.BUFF, EffectType.DEBUFF:
+			# Requires StatusEffect implementation
+			print("Applying %s effect (requires StatusEffect implementation)" % effect_type)
 
-    start_cooldown()
-    #emit_signal("ability_cast_success", name)
+	start_cooldown()
+	#emit_signal("ability_cast_success", name)
 
 func get_cooldown_remaining() -> float:
-    return _current_cooldown
+	return _current_cooldown
 
 func is_ready() -> bool:
-    return _current_cooldown <= 0.0
+	return _current_cooldown <= 0.0
 
 func get_typing_pattern() -> String:
-    return typing_pattern
+	return typing_pattern
 
 func start_cooldown() -> void:
-    _current_cooldown = cooldown_duration
-    #emit_signal("cooldown_started", name, cooldown_duration)
+	_current_cooldown = cooldown_duration
+	#emit_signal("cooldown_started", name, cooldown_duration)
 
 func process_cooldown(delta: float) -> void:
-    if _current_cooldown > 0:
-        _current_cooldown -= delta
-        if _current_cooldown < 0:
-            _current_cooldown = 0
-        #emit_signal("cooldown_updated", name, _current_cooldown)
+	if _current_cooldown > 0:
+		_current_cooldown -= delta
+		if _current_cooldown < 0:
+			_current_cooldown = 0
+		#emit_signal("cooldown_updated", name, _current_cooldown)

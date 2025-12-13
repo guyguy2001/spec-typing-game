@@ -17,55 +17,55 @@ signal status_effect_removed(effect_name: String)
 
 
 func _ready() -> void:
-    health = max_health
+	health = max_health
 
 # Interface methods from ICharacter
 func take_damage(amount: float) -> void:
-    health = maxi(0, health - amount)
-    emit_signal("health_changed", health)
-    emit_signal("damage_taken", amount)
-    if health <= 0:
-        emit_signal("died")
-        queue_free() # Placeholder for character death
+	health = maxi(0, health - amount)
+	emit_signal("health_changed", health)
+	emit_signal("damage_taken", amount)
+	if health <= 0:
+		emit_signal("died")
+		queue_free() # Placeholder for character death
 
 func apply_status_effect(effect: StatusEffect) -> void:
-    # Check if effect already exists and handle stacking/refreshing
-    for i in range(active_status_effects.size()):
-        if active_status_effects[i].name == effect.name:
-            # Refresh duration if already exists, or stack
-            active_status_effects[i].time_remaining = effect.duration
-            return
-    
-    active_status_effects.append(effect)
-    print("%s applied status effect: %s" % [character_name, effect.name])
-    emit_signal("status_effect_applied", effect.name)
+	# Check if effect already exists and handle stacking/refreshing
+	for i in range(active_status_effects.size()):
+		if active_status_effects[i].name == effect.name:
+			# Refresh duration if already exists, or stack
+			active_status_effects[i].time_remaining = effect.duration
+			return
+	
+	active_status_effects.append(effect)
+	print("%s applied status effect: %s" % [character_name, effect.name])
+	emit_signal("status_effect_applied", effect.name)
 
 func remove_status_effect(effect_name: String) -> void:
-    var index_to_remove = -1
-    for i in range(active_status_effects.size()):
-        if active_status_effects[i].name == effect_name:
-            index_to_remove = i
-            break
-    
-    if index_to_remove != -1:
-        active_status_effects.remove_at(index_to_remove)
-        emit_signal("status_effect_removed", effect_name)
+	var index_to_remove = -1
+	for i in range(active_status_effects.size()):
+		if active_status_effects[i].name == effect_name:
+			index_to_remove = i
+			break
+	
+	if index_to_remove != -1:
+		active_status_effects.remove_at(index_to_remove)
+		emit_signal("status_effect_removed", effect_name)
 
 func get_health() -> float:
-    return health
+	return health
 
 func _process(delta: float) -> void:
-    _process_status_effects(delta)
+	_process_status_effects(delta)
 
 func _physics_process(delta: float) -> void:
-    pass # To be implemented by subclasses (Player/Enemy)
+	pass # To be implemented by subclasses (Player/Enemy)
 
 func _process_status_effects(delta: float) -> void:
-    var effects_to_remove: Array = []
-    for effect in active_status_effects:
-        effect.tick(delta) # Let the effect tick down its own timer
-        if not effect.is_active():
-            effects_to_remove.append(effect.name)
-    
-    for effect_name in effects_to_remove:
-        remove_status_effect(effect_name)
+	var effects_to_remove: Array = []
+	for effect in active_status_effects:
+		effect.tick(delta) # Let the effect tick down its own timer
+		if not effect.is_active():
+			effects_to_remove.append(effect.name)
+	
+	for effect_name in effects_to_remove:
+		remove_status_effect(effect_name)

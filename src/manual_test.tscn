@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ul1gnfsge4ry"]
+
+[ext_resource type="Texture2D" uid="uid://bqux038dtu0t0" path="res://sprites/roguelikeChar_transparent.png" id="1_6gvhs"]
+
+[node name="ManualTest" type="Sprite2D"]
+texture = ExtResource("1_6gvhs")
+region_enabled = true
+region_rect = Rect2(325.49036, 82.9158, 15.641846, 13.324562)

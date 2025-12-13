@@ -36,6 +36,10 @@ This document outlines the preferred conventions and practices for Godot (GDScri
 
 - Avoid using private methods and fields on other objects (those that start with an `_`) - re-consider if they should be used, and if so, consider making them public.
 
+### 5. Indentation
+
+- ALWAYS use tabs as indentation in .gd scripts.
+
 ## III. Scene vs. Code
 
 ### 1. Node Instantiation (Child Nodes)

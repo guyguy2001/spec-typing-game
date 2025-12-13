@@ -3,37 +3,67 @@ extends Node2D
 
 @onready var player: Player = $Player
 @onready var hud: HUD = $HUD
+@onready var respawn_timer: Timer = $RespawnTimer
+@onready var input_handler: InputHandler = $InputHandler
+
 @export var enemy_scene: PackedScene
+@export var game_over_ui_scene: PackedScene # Scene for Game Over UI
+@export var target_indicator_scene: PackedScene
 
 const FloatingTextScene = preload("res://src/ui/floating_text.tscn")
 const EnemyAttackAbility = preload("res://src/abilities/enemy_attack.gd")
 
+var enemies: Array[Enemy] = []
+var target_indicator: TargetIndicator = null
+
 func _ready() -> void:
 	if player and hud:
-		player.connect("damage_taken", func(amount): _on_damage_taken(player, amount))
+		player.connect("damage_taken", Callable(self, "_on_damage_taken").bind(player))
+		player.connect("died", Callable(self, "_on_player_died"))
 		
-		# Connect Player HUD signals programmatically
-		player.connect("health_changed", hud.update_player_health)
-		player.connect("status_effect_applied", hud.add_player_effect)
-		player.connect("status_effect_removed", hud.remove_player_effect)
-		player.connect("abilities_setup", hud.setup_abilities)
-		player.connect("abilities_updated", hud.update_abilities)
+		player.connect("health_changed", Callable(hud, "update_player_health"))
+		player.connect("status_effect_applied", Callable(hud, "add_player_effect"))
+		player.connect("status_effect_removed", Callable(hud, "remove_player_effect"))
+		player.connect("abilities_setup", Callable(hud, "setup_abilities"))
+		player.connect("abilities_updated", Callable(hud, "update_abilities"))
 		
-		spawn_enemy() # Spawn initial enemy
+		if respawn_timer:
+			respawn_timer.one_shot = true
+			respawn_timer.wait_time = 1.0 # 1 second delay before respawning
+			respawn_timer.connect("timeout", Callable(self, "_on_respawn_timer_timeout"))
+		else:
+			push_error("Arena: RespawnTimer node not found! Please add a Timer node named 'RespawnTimer' in the scene.")
+		
+		# Tab targeting
+		if input_handler:
+			input_handler.connect("tab_pressed", Callable(self, "cycle_target"))
+		
+		# Spawn initial enemies
+		spawn_enemy(Vector2(700, 400))
+		spawn_enemy(Vector2(900, 600))
+		
+		# Setup Target Indicator
+		if target_indicator_scene:
+			target_indicator = target_indicator_scene.instantiate() as TargetIndicator
+			add_child(target_indicator)
+			# Initial target
+			if not enemies.is_empty():
+				_set_player_target(enemies[0])
+		
 	else:
 		push_error("Arena: Player or HUD node not found!")
 
-func spawn_enemy() -> void:
+func spawn_enemy(spawn_pos: Vector2 = Vector2(800, 500)) -> void:
 	if not enemy_scene:
 		push_error("Arena: Enemy scene not set in inspector!")
 		return
 	
 	var new_enemy: Enemy = enemy_scene.instantiate()
-	# Find AI controller and set properties BEFORE adding to tree
 	var enemy_ai: EnemyAIController = new_enemy.find_child("EnemyAIController")
-	add_child(new_enemy) # Add to tree AFTER properties are set
-	new_enemy.position = Vector2(800, 500) # Same position as old hardcoded enemy
-	new_enemy.character_name = "Spawned Enemy" # For debugging
+	
+	add_child(new_enemy)
+	new_enemy.position = spawn_pos
+	new_enemy.character_name = "Enemy %d" % enemies.size()
 	
 	if enemy_ai:
 		enemy_ai.set_target(player)
@@ -41,16 +71,102 @@ func spawn_enemy() -> void:
 		enemy_ai.start_attack_timer() # Start timer after adding to tree
 	
 	player.target_enemy = new_enemy # Set player's target to the new enemy
-	print("Arena: Set Player target to %s." % new_enemy.character_name)
 	
-	new_enemy.connect("damage_taken", func(amount): _on_damage_taken(new_enemy, amount))
+	new_enemy.connect("damage_taken", Callable(self, "_on_damage_taken").bind(new_enemy))
+	new_enemy.connect("died", Callable(self, "_on_enemy_died").bind(new_enemy))
+	
+	if hud:
+		# Note: HUD currently only supports ONE enemy health bar.
+		# For multi-enemy, we ideally need dynamically targeted health bar.
+		# For MVP, we will only connect the CURRENT target's health to HUD in _set_player_target
+		pass 
+	
+	enemies.append(new_enemy)
+	
+	# Auto-target if it's the first one
+	if player.target_enemy == null:
+		_set_player_target(new_enemy)
 
-	new_enemy.connect("health_changed", hud.update_enemy_health)
-	new_enemy.connect("status_effect_applied", hud.add_enemy_effect)
-	new_enemy.connect("status_effect_removed", hud.remove_enemy_effect)
+func cycle_target() -> void:
+	if enemies.is_empty():
+		return
+	
+	var current_index = enemies.find(player.target_enemy)
+	var next_index = (current_index + 1) % enemies.size()
+	_set_player_target(enemies[next_index])
 
-func _on_damage_taken(character: Character, amount: float) -> void:
+func _set_player_target(enemy: Enemy) -> void:
+	# Disconnect HUD from old target
+	if player.target_enemy and is_instance_valid(player.target_enemy):
+		if player.target_enemy.is_connected("health_changed", Callable(hud, "update_enemy_health")):
+			player.target_enemy.disconnect("health_changed", Callable(hud, "update_enemy_health"))
+		if player.target_enemy.is_connected("status_effect_applied", Callable(hud, "add_enemy_effect")):
+			player.target_enemy.disconnect("status_effect_applied", Callable(hud, "add_enemy_effect"))
+		if player.target_enemy.is_connected("status_effect_removed", Callable(hud, "remove_enemy_effect")):
+			player.target_enemy.disconnect("status_effect_removed", Callable(hud, "remove_enemy_effect"))
+
+	player.target_enemy = enemy
+	
+	if target_indicator:
+		target_indicator.target_node = enemy
+	
+	# Connect HUD to new target
+	if enemy:
+		enemy.connect("health_changed", Callable(hud, "update_enemy_health"))
+		enemy.connect("status_effect_applied", Callable(hud, "add_enemy_effect"))
+		enemy.connect("status_effect_removed", Callable(hud, "remove_enemy_effect"))
+		
+		# Force HUD update
+		hud.update_enemy_health(enemy.health)
+		# NOTE: HUD status bar doesn't clear on switch, might be confusing. 
+		# Ideally clear enemy status bar on switch.
+		# We need a clear method in HUD. I'll assume I can access enemy_status_bar via a method or property.
+		# Or just emit "status_effect_removed" for all old effects? Too complex for now.
+		# Let's just update health.
+
+func _on_damage_taken(amount: float, character: Character) -> void: # Signature changed
 	var text = FloatingTextScene.instantiate()
 	add_child(text)
-	text.position = character.position + Vector2(0, -50) # Above head
-	text.setup(str(int(amount)), Color(1, 0, 0)) # Red text
+	text.position = character.position + Vector2(0, -50)
+	text.setup(str(int(amount)), Color(1, 0, 0))
+
+func _on_enemy_died(enemy_node: Enemy) -> void:
+	print("Enemy died!")
+	# Disconnect from the dying enemy
+	enemy_node.disconnect("damage_taken", Callable(self, "_on_damage_taken").bind(enemy_node))
+	enemy_node.disconnect("died", Callable(self, "_on_enemy_died").bind(enemy_node))
+	if hud:
+		if enemy_node.is_connected("health_changed", Callable(hud, "update_enemy_health")):
+			enemy_node.disconnect("health_changed", Callable(hud, "update_enemy_health"))
+		if enemy_node.is_connected("status_effect_applied", Callable(hud, "add_enemy_effect")):
+			enemy_node.disconnect("status_effect_applied", Callable(hud, "add_enemy_effect"))
+		if enemy_node.is_connected("status_effect_removed", Callable(hud, "remove_enemy_effect")):
+			enemy_node.disconnect("status_effect_removed", Callable(hud, "remove_enemy_effect"))
+	
+	enemies.erase(enemy_node)
+	
+	if player.target_enemy == enemy_node:
+		if not enemies.is_empty():
+			_set_player_target(enemies[0])
+		else:
+			_set_player_target(null)
+			if target_indicator: target_indicator.target_node = null
+	
+	enemy_node.queue_free()
+	
+	respawn_timer.start()
+
+
+func _on_respawn_timer_timeout() -> void:
+	# Spawn at a randomish location or alternating
+	var spawn_pos = Vector2(randf_range(600, 900), randf_range(300, 600))
+	spawn_enemy(spawn_pos)
+
+func _on_player_died() -> void:
+	print("Player died! Game Over.")
+	get_tree().paused = true
+	if game_over_ui_scene:
+		var game_over_ui = game_over_ui_scene.instantiate()
+		add_child(game_over_ui)
+	else:
+		push_error("Arena: Game Over UI scene not set!")

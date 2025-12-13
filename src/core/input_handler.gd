@@ -6,6 +6,7 @@ signal text_input(char: String)
 signal key_pressed(keycode: int)
 signal backspace_pressed()
 signal space_pressed()
+signal tab_pressed()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
@@ -15,6 +16,8 @@ func _input(event: InputEvent) -> void:
 				emit_signal("backspace_pressed")
 			elif event.keycode == KEY_SPACE:
 				emit_signal("space_pressed")
+			elif event.keycode == KEY_TAB:
+				emit_signal("tab_pressed")
 			elif event.unicode >= 33: # Standard printable characters start at 33 (!), Space is 32
 				emit_signal("text_input", char(event.unicode))
 			

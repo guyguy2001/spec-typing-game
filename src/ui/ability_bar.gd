@@ -9,22 +9,22 @@ const SlowIcon = preload("res://assets/sprites/ui/icons/Classes/Elementalist/Cry
 var icon_map = {}
 
 func setup(abilities: Array) -> void:
-    for child in get_children():
-        child.queue_free()
-    icon_map.clear()
-    
-    for ability in abilities:
-        var icon = IconScene.instantiate()
-        add_child(icon)
-        
-        var tex = FireIcon # Default
-        if "Buff" in ability.name: tex = HealIcon
-        elif "Debuff" in ability.name: tex = SlowIcon
-        
-        icon.setup(tex, ability.typing_pattern)
-        icon_map[ability.name] = icon
+	for child in get_children():
+		child.queue_free()
+	icon_map.clear()
+	
+	for ability in abilities:
+		var icon = IconScene.instantiate()
+		add_child(icon)
+		
+		var tex = FireIcon # Default
+		if "Buff" in ability.name: tex = HealIcon
+		elif "Debuff" in ability.name: tex = SlowIcon
+		
+		icon.setup(tex, ability.typing_pattern)
+		icon_map[ability.name] = icon
 
 func update_cooldowns(abilities: Array) -> void:
-    for ability in abilities:
-        if icon_map.has(ability.name):
-            icon_map[ability.name].update_cooldown(ability.get_cooldown_remaining(), ability.cooldown_duration)
+	for ability in abilities:
+		if icon_map.has(ability.name):
+			icon_map[ability.name].update_cooldown(ability.get_cooldown_remaining(), ability.cooldown_duration)

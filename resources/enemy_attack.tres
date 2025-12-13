@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EnemyAttackAbility" load_steps=2 format=3 uid="uid://m7hqedijnycn"]
+
+[ext_resource type="Script" uid="uid://7y8mb5vlngx8" path="res://src/abilities/enemy_attack.gd" id="1_2g7ba"]
+
+[resource]
+script = ExtResource("1_2g7ba")
+name = "Slash"
+effect_value = 25.0
+cooldown_duration = 3.0
+metadata/_custom_type_script = "uid://7y8mb5vlngx8"

@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://bu6da32lekbo8"]
 
-[ext_resource type="Script" path="res://src/characters/enemy.gd" id="1_cde34"]
+[ext_resource type="Script" uid="uid://dg6aagy552i5i" path="res://src/characters/enemy.gd" id="1_cde34"]
 [ext_resource type="PackedScene" path="res://src/ai/enemy_ai_controller.tscn" id="2_ai_scene"]
-[ext_resource type="Script" path="res://src/abilities/enemy_attack.gd" id="3_attack"]
+[ext_resource type="Resource" uid="uid://m7hqedijnycn" path="res://resources/enemy_attack.tres" id="3_omn8r"]
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_cde34")
 
 [node name="EnemyAIController" parent="." instance=ExtResource("2_ai_scene")]
+attack_ability = ExtResource("3_omn8r")
