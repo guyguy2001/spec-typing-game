@@ -17,10 +17,5 @@ func setup(abilities: Array) -> void:
 		# Use icon from the ability resource
 		var tex = ability.icon
 		
-		icon.setup(tex, ability.typing_pattern)
+		icon.setup(tex, ability)
 		icon_map[ability.name] = icon
-
-func update_cooldowns(abilities: Array) -> void:
-	for ability in abilities:
-		if icon_map.has(ability.name):
-			icon_map[ability.name].update_cooldown(ability.get_cooldown_remaining(), ability.cooldown_duration)

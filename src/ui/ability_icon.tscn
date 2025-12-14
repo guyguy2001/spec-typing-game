@@ -1,12 +1,21 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://11wnppbc5tx0"]
 
-[ext_resource type="Script" path="res://src/ui/ability_icon.gd" id="1_icon"]
-[ext_resource type="Texture2D" path="res://assets/sprites/ui/white_square.png" id="2_white"]
+[ext_resource type="Texture2D" uid="uid://7ltq8wo4j3qw" path="res://assets/sprites/ui/icons/Classes/Warrior/Guardian/Guardian8.png" id="1_e1bua"]
+[ext_resource type="Script" uid="uid://vmnllf4fixr1" path="res://src/ui/ability_icon.gd" id="1_icon"]
+[ext_resource type="Texture2D" uid="uid://cqdp3ct4tmaje" path="res://assets/sprites/ui/white_square.png" id="2_white"]
 
 [node name="AbilityIcon" type="TextureRect"]
 custom_minimum_size = Vector2(48, 48)
+texture = ExtResource("1_e1bua")
 expand_mode = 1
 script = ExtResource("1_icon")
+
+[node name="PreCastIndicator" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+color = Color(0.14509805, 0.5411765, 0.25882354, 0.3647059)
 
 [node name="CooldownOverlay" type="TextureProgressBar" parent="."]
 modulate = Color(0, 0, 0, 0.7)
@@ -16,10 +25,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+step = 0.01
 fill_mode = 5
 nine_patch_stretch = true
 texture_progress = ExtResource("2_white")
-step = 0.01
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1

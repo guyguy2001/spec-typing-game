@@ -55,15 +55,9 @@ func _on_input_handler_space_pressed() -> void:
 	var cast_successful = false
 	for ability in abilities:
 		if ability.get_typing_pattern().to_lower() == current_typing_input.to_lower():
-			if ability.is_ready():
-				if target_enemy:
-					ability.cast(self, target_enemy) # Pass self as caster, target_enemy as target
-					cast_successful = true
-					break
-				else:
-					print("No target for ability %s." % ability.name)
-			else:
-				print("Ability %s is on cooldown." % ability.name)
+			ability.cast(self, target_enemy) # Pass self as caster, target_enemy as target
+			cast_successful = true
+			break
 	
 	current_typing_input = "" # Always reset input after space or attempted cast
 	if not cast_successful:
@@ -72,5 +66,3 @@ func _on_input_handler_space_pressed() -> void:
 func _process_ability_cooldowns(delta: float) -> void:
 	for ability in abilities:
 		ability.process_cooldown(delta)
-	
-	emit_signal("abilities_updated", abilities)

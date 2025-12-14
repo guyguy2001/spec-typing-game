@@ -16,7 +16,6 @@ func _ready() -> void:
 	player.connect("status_effect_applied", add_player_effect)
 	player.connect("status_effect_removed", remove_player_effect)
 	player.connect("abilities_setup", setup_abilities)
-	player.connect("abilities_updated", update_abilities)
 	
 	# Clear editor placeholders
 	_clear_placeholders(player_status_bar)
@@ -38,6 +37,3 @@ func remove_player_effect(effect: StatusEffect) -> void:
 
 func setup_abilities(abilities: Array) -> void:
 	ability_bar.setup(abilities)
-
-func update_abilities(abilities: Array) -> void:
-	ability_bar.update_cooldowns(abilities)
