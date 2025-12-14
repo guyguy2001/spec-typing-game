@@ -31,11 +31,11 @@ GDScript (Godot 4.x): Follow specs\godot_conventions.md, or standard conventions
 tscn files: Adhere to the notes in specs/tscn_format_notes.md and the format specification in specs/tscn_file_format.rst when creating/editing scene files.
 
 ## Recent Changes
+- 005-please-make-text: Added [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
 
 - 004-visual-polish: Added GDScript (Godot 4.x) + Existing custom State Machine.
 - 003-minimal-combat-loop: Added GDScript (Godot 4.x) + Existing custom State Machine.
 
-- 002-typing-rpg-game: Added GDScript (Godot 4.x) + Custom code for State Machine (no external extensions).
 
 <!-- MANUAL ADDITIONS START -->
 <!-- MANUAL ADDITIONS END -->

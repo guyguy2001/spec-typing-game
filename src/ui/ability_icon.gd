@@ -5,13 +5,14 @@ extends TextureRect
 
 @onready var pre_cast_indicator: Control = $PreCastIndicator
 @onready var cooldown_overlay: TextureProgressBar = $CooldownOverlay
-@onready var label: Label = $Label
+@onready var typable_label: TypableLabel = $Label
 
-func setup(p_texture: Texture2D, p_ability) -> void:
+func setup(p_texture: Texture2D, p_ability, input_buffer: InputBuffer) -> void:
 	texture = p_texture
 	ability = p_ability
 
-	label.text = p_ability.typing_pattern
+	typable_label.target_text = p_ability.typing_pattern
+	input_buffer.input_changed.connect(typable_label.on_input_changed)
 	cooldown_overlay.value = 0
 
 func _process(_delta):
