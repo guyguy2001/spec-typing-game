@@ -21,6 +21,7 @@ func _ready() -> void:
 	# Instantiate InputBuffer
 	input_buffer = InputBuffer.new()
 	add_child(input_buffer)
+	player.input_buffer = input_buffer # Inject dependency
 
 	target_indicator = target_indicator_scene.instantiate() as TargetIndicator
 	add_child(target_indicator)

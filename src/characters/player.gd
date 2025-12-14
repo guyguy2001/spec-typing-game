@@ -6,7 +6,7 @@ class_name Player
 # For example, an array to hold the player's ability resources.
 @export var abilities: Array[Ability] = []
 
-var current_typing_input: String = ""
+var input_buffer: InputBuffer
 var target_enemy: Character = null: # Will be set by the arena scene
 	set(value):
 		target_enemy = value
@@ -40,28 +40,35 @@ func handle_input(event: InputEvent) -> void:
 	# This will be built out in User Story 1 (T013).
 	pass
 
-func _on_input_handler_text_input(char: String) -> void:
-	current_typing_input += char
-	print("Player typing: ", current_typing_input) # For debugging
+func _on_input_handler_text_input(_char: String) -> void:
+	pass # Handled by InputBuffer
+	# current_typing_input += char
+	# print("Player typing: ", current_typing_input) # For debugging
 
 func _on_input_handler_backspace_pressed() -> void:
-	if current_typing_input.length() > 0:
-		current_typing_input = current_typing_input.substr(0, current_typing_input.length() - 1)
-		print("Player typing: ", current_typing_input) # For debugging
+	pass # Handled by InputBuffer
+	# if current_typing_input.length() > 0:
+	# 	current_typing_input = current_typing_input.substr(0, current_typing_input.length() - 1)
+	# 	print("Player typing: ", current_typing_input) # For debugging
 
 func _on_input_handler_space_pressed() -> void:
-	print("Space pressed, current input: ", current_typing_input)
+	if not input_buffer:
+		print("Player: InputBuffer not connected!")
+		return
+
+	var current_text = input_buffer.get_text()
+	print("Space pressed, current input: ", current_text)
 	
 	var cast_successful = false
 	for ability in abilities:
-		if ability.get_typing_pattern().to_lower() == current_typing_input.to_lower():
+		if ability.get_typing_pattern().to_lower() == current_text.to_lower():
 			ability.cast(self, target_enemy) # Pass self as caster, target_enemy as target
 			cast_successful = true
 			break
 	
-	current_typing_input = "" # Always reset input after space or attempted cast
+	input_buffer.clear() # Reset input via buffer
 	if not cast_successful:
-		print("No matching ability or target found for '%s'." % current_typing_input)
+		print("No matching ability or target found for '%s'." % current_text)
 
 func _process_ability_cooldowns(delta: float) -> void:
 	for ability in abilities:

@@ -1,9 +1,15 @@
 class_name TypableLabel
 extends RichTextLabel
 
-@export var target_text: String = ""
+@export var target_text: String = "":
+	set(value):
+		target_text = value
+		update_text_display(last_input)
+
 @export var active_color: Color = Color.RED
 @export var default_color: Color = Color.WHITE
+
+var last_input: String = ""
 
 func _ready() -> void:
 	# Ensure RichTextLabel is set to process BBCode
@@ -11,13 +17,12 @@ func _ready() -> void:
 	update_text_display("") # Initial display
 
 func on_input_changed(current_input: String) -> void:
+	last_input = current_input
 	update_text_display(current_input)
 
 func update_text_display(current_input: String) -> void:
-	print("update_text_display called with current_input: '%s', target_text: '%s'" % [current_input, target_text])
 	if target_text.is_empty():
 		self.text = ""
-		print("  -> Target text empty, setting text to: ''")
 		return
 
 	var bbcode_text: String
