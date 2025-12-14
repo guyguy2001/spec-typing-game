@@ -2,14 +2,6 @@
 extends Ability
 class_name DamageAbility
 
-func _init() -> void:
-	name = "Damage Ability"
-	typing_pattern = "fire" # Placeholder
-	effect_type = EffectType.DAMAGE
-	effect_value = 25.0
-	cooldown_duration = 2.0
-	description = "A basic damage-dealing ability."
-
 func cast(caster: Node, target: Node) -> void:
 	if not is_ready():
 		print("Damage Ability %s on cooldown." % name)

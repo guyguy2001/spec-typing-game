@@ -15,16 +15,16 @@ func update_health(new_health: float, max_health: float) -> void:
 	max_value = max_health
 	value = new_health
 
-func add_effect(effect_name: String, is_buff: bool, duration: float) -> void:
+func add_effect(effect_name: String, icon_texture: Texture2D, duration: float) -> void:
 	if active_icons.has(effect_name):
 		# Update existing
 		var icon = active_icons[effect_name]
-		icon.setup(effect_name, is_buff, duration)
+		icon.setup(effect_name, icon_texture, duration)
 		return
 
 	var icon = StatusIconScene.instantiate()
 	status_bar.add_child(icon)
-	icon.setup(effect_name, is_buff, duration)
+	icon.setup(effect_name, icon_texture, duration)
 	active_icons[effect_name] = icon
 
 func remove_effect(effect_name: String) -> void:

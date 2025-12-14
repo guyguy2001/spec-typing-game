@@ -6,9 +6,10 @@ class_name StatusEffect
 enum StatusEffectType { BUFF, DEBUFF }
 
 # Represents the type of attribute modified by the status effect.
-enum ModifierType { DAMAGE, SPEED, DEFENSE, GENERIC_EFFECT_VALUE }
+enum ModifierType { DAMAGE, SPEED, DEFENSE, GENERIC_EFFECT_VALUE, HEALTH_CHANGE }
 
 @export var name: String = ""
+var icon: Texture2D
 @export var type: StatusEffectType = StatusEffectType.BUFF
 
 # Use a setter to ensure time_remaining is always synced with duration upon initialization
@@ -21,18 +22,28 @@ enum ModifierType { DAMAGE, SPEED, DEFENSE, GENERIC_EFFECT_VALUE }
 
 @export var modifier_type: ModifierType = ModifierType.GENERIC_EFFECT_VALUE
 @export var modifier_value: float = 0.0
+@export var tick_interval: float = 0.0
 
 var time_remaining: float = 0.0
+var time_since_last_tick: float = 0.0
 
 func _init(p_duration: float = 0.0) -> void:
 	duration = p_duration
 	time_remaining = p_duration
 
-func tick(delta: float) -> void:
+func tick(delta: float) -> float:
 	if duration > 0: # Only tick down if not permanent
 		time_remaining -= delta
 		if time_remaining < 0:
 			time_remaining = 0
+	
+	if tick_interval > 0:
+		time_since_last_tick += delta
+		if time_since_last_tick >= tick_interval:
+			time_since_last_tick = 0
+			return modifier_value
+	
+	return 0.0
 
 func is_active() -> bool:
 	return time_remaining > 0 or duration == 0

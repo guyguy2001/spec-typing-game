@@ -18,16 +18,11 @@ func _ready() -> void:
 	character_name = "Player"
 	
 	if abilities.is_empty():
-		var fire_ability = DamageAbility.new()
-		abilities.append(fire_ability)
+		abilities.append(load("res://resources/fire_ability.tres"))
+		abilities.append(load("res://resources/heal_ability.tres"))
+		abilities.append(load("res://resources/poison_ability.tres"))
 		
-		var heal_ability = BuffAbility.new()
-		abilities.append(heal_ability)
-		
-		var slow_ability = DebuffAbility.new()
-		abilities.append(slow_ability)
-		
-		print("Added default Fire, Heal, and Slow abilities to Player.")
+		print("Added default Fire, Heal, and Poison abilities to Player from resources.")
 	
 	# Defer signal emission to ensure HUD is ready
 	call_deferred("emit_signal", "abilities_setup", abilities)

@@ -19,8 +19,7 @@ func _on_health_changed(new_health: float) -> void:
 
 func _on_status_applied(effect: StatusEffect) -> void:
 	if health_bar:
-		var is_buff = effect.type == StatusEffect.StatusEffectType.BUFF
-		health_bar.add_effect(effect.name, is_buff, effect.duration)
+		health_bar.add_effect(effect.name, effect.icon, effect.duration)
 
 func _on_status_removed(effect_name: String) -> void:
 	if health_bar:

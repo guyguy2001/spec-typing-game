@@ -4,16 +4,8 @@ extends TextureRect
 @onready var duration_overlay: TextureProgressBar = $DurationOverlay
 @onready var label: Label = $Label
 
-# Preload default icons
-const BuffIcon = preload("res://assets/sprites/ui/icons/Classes/HolyDarkness/Priest/Priest8.png")
-const DebuffIcon = preload("res://assets/sprites/ui/icons/Classes/Elementalist/Cryomancer/Cryomancer4.png")
-
-func setup(effect_name: String, is_buff: bool, duration: float) -> void:
-	if is_buff:
-		texture = BuffIcon
-	else:
-		texture = DebuffIcon
-	
+func setup(effect_name: String, icon_texture: Texture2D, duration: float) -> void:
+	texture = icon_texture
 	tooltip_text = effect_name
 	
 	duration_overlay.max_value = duration

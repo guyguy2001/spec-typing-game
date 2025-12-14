@@ -63,7 +63,18 @@ func _physics_process(delta: float) -> void:
 func _process_status_effects(delta: float) -> void:
 	var effects_to_remove: Array = []
 	for effect in active_status_effects:
-		effect.tick(delta) # Let the effect tick down its own timer
+		var tick_value = effect.tick(delta)
+		
+		if tick_value != 0:
+			# Handle periodic effects
+			if effect.type == StatusEffect.StatusEffectType.BUFF:
+				# Heal
+				health = min(health + tick_value, max_health)
+				emit_signal("health_changed", health)
+			else:
+				# Damage (Poison)
+				take_damage(tick_value)
+		
 		if not effect.is_active():
 			effects_to_remove.append(effect.name)
 	

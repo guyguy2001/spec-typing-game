@@ -2,9 +2,6 @@
 extends HBoxContainer
 
 const IconScene = preload("res://src/ui/ability_icon.tscn")
-const FireIcon = preload("res://assets/sprites/ui/icons/Classes/Elementalist/Pyromancer/Pyromancer2.png")
-const HealIcon = preload("res://assets/sprites/ui/icons/Classes/HolyDarkness/Priest/Priest8.png")
-const SlowIcon = preload("res://assets/sprites/ui/icons/Classes/Elementalist/Cryomancer/Cryomancer4.png")
 
 var icon_map = {}
 
@@ -17,9 +14,8 @@ func setup(abilities: Array) -> void:
 		var icon = IconScene.instantiate()
 		add_child(icon)
 		
-		var tex = FireIcon # Default
-		if "Buff" in ability.name: tex = HealIcon
-		elif "Debuff" in ability.name: tex = SlowIcon
+		# Use icon from the ability resource
+		var tex = ability.icon
 		
 		icon.setup(tex, ability.typing_pattern)
 		icon_map[ability.name] = icon

@@ -6,6 +6,7 @@ class_name Ability
 enum EffectType {DAMAGE, BUFF, DEBUFF}
 
 @export var name: String = ""
+@export var icon: Texture2D
 @export var typing_pattern: String = ""
 @export var effect_type: EffectType = EffectType.DAMAGE
 @export var effect_value: float = 0.0

@@ -23,8 +23,7 @@ func update_player_health(new_health: float) -> void:
 
 func add_player_effect(effect: StatusEffect) -> void:
 	print("HUD: Adding player effect %s" % effect.name)
-	var is_buff = effect.type == StatusEffect.StatusEffectType.BUFF
-	player_status_bar.add_effect(effect.name, is_buff, effect.duration)
+	player_status_bar.add_effect(effect.name, effect.icon, effect.duration)
 
 func remove_player_effect(effect_name: String) -> void:
 	player_status_bar.remove_effect(effect_name)
