@@ -1,15 +1,29 @@
-[gd_resource type="Resource" script_class="BuffAbility" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Ability" load_steps=7 format=3 uid="uid://o8s15ofbfp04"]
 
-[ext_resource type="Script" path="res://src/abilities/buff_ability.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/sprites/ui/icons/Classes/HolyDarkness/Priest/Priest8.png" id="2_icon"]
+[ext_resource type="Script" uid="uid://hgcwe4lr8siu" path="res://src/core/status_effect.gd" id="1_2da22"]
+[ext_resource type="Texture2D" uid="uid://cdnatax80dhil" path="res://assets/sprites/ui/icons/Classes/HolyDarkness/Priest/Priest8.png" id="2_icon"]
+[ext_resource type="Script" uid="uid://be2i7dr81g27l" path="res://src/abilities/effects/buff_effect.gd" id="2_w50j5"]
+[ext_resource type="Script" uid="uid://bcip2x8rrdhmd" path="res://src/abilities/ability.gd" id="4_llmbw"]
+
+[sub_resource type="Resource" id="Resource_rrsme"]
+script = ExtResource("1_2da22")
+name = "Heal"
+icon = ExtResource("2_icon")
+duration = 5.0
+modifier_type = 4
+modifier_value = 2.0
+tick_interval = 1.0
+metadata/_custom_type_script = "uid://hgcwe4lr8siu"
+
+[sub_resource type="Resource" id="Resource_y6vb5"]
+script = ExtResource("2_w50j5")
+buff = SubResource("Resource_rrsme")
+metadata/_custom_type_script = "uid://be2i7dr81g27l"
 
 [resource]
-script = ExtResource("1_script")
-buff_duration = 5.0
+script = ExtResource("4_llmbw")
 name = "Heal"
 icon = ExtResource("2_icon")
 typing_pattern = "heal"
-effect_type = 1
-effect_value = 5.0
-cooldown_duration = 8.0
-description = "Heals over time."
+effect = SubResource("Resource_y6vb5")
+target_type = 1

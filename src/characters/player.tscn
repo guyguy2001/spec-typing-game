@@ -1,7 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://c2vc6r7uq8daq"]
+[gd_scene load_steps=8 format=3 uid="uid://c2vc6r7uq8daq"]
 
 [ext_resource type="Script" uid="uid://cdid3hj7whag0" path="res://src/characters/player.gd" id="1_p1a2b"]
 [ext_resource type="Texture2D" uid="uid://vj44kwf2k2rn" path="res://sprites/human.tres" id="2_human_sprite"]
+[ext_resource type="Script" uid="uid://bcip2x8rrdhmd" path="res://src/abilities/ability.gd" id="2_wjtsg"]
+[ext_resource type="Resource" uid="uid://c45cqpw7s1muw" path="res://resources/fire_ability.tres" id="3_8vhne"]
+[ext_resource type="Resource" uid="uid://o8s15ofbfp04" path="res://resources/heal_ability.tres" id="4_3abso"]
+[ext_resource type="Resource" uid="uid://dneka0ghl2x7n" path="res://resources/poison_ability.tres" id="5_8vhne"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player_collision"]
 size = Vector2(16, 16)
@@ -9,6 +13,7 @@ size = Vector2(16, 16)
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
 script = ExtResource("1_p1a2b")
+abilities = Array[ExtResource("2_wjtsg")]([ExtResource("3_8vhne"), ExtResource("4_3abso"), ExtResource("5_8vhne")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(5, 5)

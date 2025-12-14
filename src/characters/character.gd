@@ -9,11 +9,11 @@ class_name Character
 var health: float = max_health
 var active_status_effects: Array[StatusEffect] = []
 
-signal health_changed(new_health: float)
+signal health_changed(max_health: float, new_health: float)
 signal damage_taken(amount: float)
 signal died()
 signal status_effect_applied(effect: StatusEffect)
-signal status_effect_removed(effect_name: String)
+signal status_effect_removed(effect_name: StatusEffect)
 
 
 func _ready() -> void:
@@ -21,8 +21,8 @@ func _ready() -> void:
 
 # Interface methods from ICharacter
 func take_damage(amount: float) -> void:
-	health = maxi(0, health - amount)
-	emit_signal("health_changed", health)
+	health = max(0, health - amount)
+	emit_signal("health_changed", max_health, health)
 	emit_signal("damage_taken", amount)
 	if health <= 0:
 		emit_signal("died")
@@ -40,16 +40,16 @@ func apply_status_effect(effect: StatusEffect) -> void:
 	print("%s applied status effect: %s" % [character_name, effect.name])
 	emit_signal("status_effect_applied", effect)
 
-func remove_status_effect(effect_name: String) -> void:
+func remove_status_effect(effect: StatusEffect) -> void:
 	var index_to_remove = -1
 	for i in range(active_status_effects.size()):
-		if active_status_effects[i].name == effect_name:
+		if active_status_effects[i] == effect:
 			index_to_remove = i
 			break
 	
 	if index_to_remove != -1:
 		active_status_effects.remove_at(index_to_remove)
-		emit_signal("status_effect_removed", effect_name)
+		emit_signal("status_effect_removed", effect)
 
 func get_health() -> float:
 	return health
@@ -76,7 +76,7 @@ func _process_status_effects(delta: float) -> void:
 				take_damage(tick_value)
 		
 		if not effect.is_active():
-			effects_to_remove.append(effect.name)
+			effects_to_remove.append(effect)
 	
-	for effect_name in effects_to_remove:
-		remove_status_effect(effect_name)
+	for effect in effects_to_remove:
+		remove_status_effect(effect)

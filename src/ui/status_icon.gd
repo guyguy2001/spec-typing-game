@@ -11,5 +11,7 @@ func setup(effect_name: String, icon_texture: Texture2D, duration: float) -> voi
 	duration_overlay.max_value = duration
 	duration_overlay.value = duration
 
-func update_duration(remaining: float) -> void:
-	duration_overlay.value = remaining
+func _process(delta: float) -> void:
+	duration_overlay.value -= delta
+	if duration_overlay.value <= 0:
+		modulate.a = 0.5 # Visual cue that it's expiring

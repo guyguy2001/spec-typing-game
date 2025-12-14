@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://dg6aagy552i5i" path="res://src/characters/enemy.gd" id="1_cde34"]
 [ext_resource type="PackedScene" path="res://src/ai/enemy_ai_controller.tscn" id="2_ai_scene"]
 [ext_resource type="Texture2D" uid="uid://becxoy4il3acl" path="res://sprites/orc.tres" id="2_ndt6u"]
-[ext_resource type="Resource" uid="uid://m7hqedijnycn" path="res://resources/enemy_attack.tres" id="3_omn8r"]
 [ext_resource type="PackedScene" path="res://src/ui/floating_health_bar.tscn" id="5_health_bar"]
+[ext_resource type="Resource" uid="uid://dg8pdn5pabseg" path="res://resources/slash.tres" id="5_ndt6u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_enemy_collision"]
 size = Vector2(16, 16)
@@ -20,7 +20,9 @@ texture = ExtResource("2_ndt6u")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_enemy_collision")
 
-[node name="FloatingHealthBar" parent="." instance=ExtResource("5_health_bar")]
+[node name="FloatingHealthBar" parent="." node_paths=PackedStringArray("character") instance=ExtResource("5_health_bar")]
+character = NodePath("..")
+metadata/_edit_use_anchors_ = true
 
 [node name="EnemyAIController" parent="." instance=ExtResource("2_ai_scene")]
-attack_ability = ExtResource("3_omn8r")
+attack_ability = ExtResource("5_ndt6u")

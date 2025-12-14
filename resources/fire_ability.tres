@@ -1,14 +1,19 @@
-[gd_resource type="Resource" script_class="DamageAbility" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Ability" load_steps=5 format=3 uid="uid://c45cqpw7s1muw"]
 
-[ext_resource type="Script" path="res://src/abilities/damage_ability.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/sprites/ui/icons/Classes/Elementalist/Pyromancer/Pyromancer2.png" id="2_icon"]
+[ext_resource type="Script" uid="uid://bcip2x8rrdhmd" path="res://src/abilities/ability.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://b8dccqoqlltlu" path="res://src/abilities/effects/damage_effect.gd" id="1_smjan"]
+[ext_resource type="Texture2D" uid="uid://sqbp4uayvi17" path="res://assets/sprites/ui/icons/Classes/Elementalist/Pyromancer/Pyromancer2.png" id="2_icon"]
+
+[sub_resource type="Resource" id="Resource_xiwts"]
+script = ExtResource("1_smjan")
+damage = 25.0
+metadata/_custom_type_script = "uid://b8dccqoqlltlu"
 
 [resource]
 script = ExtResource("1_script")
 name = "Fire"
 icon = ExtResource("2_icon")
 typing_pattern = "fire"
-effect_type = 0
-effect_value = 25.0
+effect = SubResource("Resource_xiwts")
 cooldown_duration = 2.0
 description = "Deals damage instantly."

@@ -7,8 +7,12 @@ class_name Player
 @export var abilities: Array[Ability] = []
 
 var current_typing_input: String = ""
-var target_enemy: Character = null # Will be set by the arena scene
+var target_enemy: Character = null: # Will be set by the arena scene
+	set(value):
+		target_enemy = value
+		target_changed.emit(value)
 
+signal target_changed(target: Character)
 signal abilities_setup(abilities: Array)
 signal abilities_updated(abilities: Array)
 
@@ -17,12 +21,12 @@ func _ready() -> void:
 	super._ready()
 	character_name = "Player"
 	
-	if abilities.is_empty():
-		abilities.append(load("res://resources/fire_ability.tres"))
-		abilities.append(load("res://resources/heal_ability.tres"))
-		abilities.append(load("res://resources/poison_ability.tres"))
+	# if abilities.is_empty():
+	# 	abilities.append(load("res://resources/fire_ability.tres"))
+	# 	abilities.append(load("res://resources/heal_ability.tres"))
+	# 	abilities.append(load("res://resources/poison_ability.tres"))
 		
-		print("Added default Fire, Heal, and Poison abilities to Player from resources.")
+	# 	print("Added default Fire, Heal, and Poison abilities to Player from resources.")
 	
 	# Defer signal emission to ensure HUD is ready
 	call_deferred("emit_signal", "abilities_setup", abilities)

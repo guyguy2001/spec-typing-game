@@ -2,6 +2,8 @@
 extends CanvasLayer
 class_name HUD
 
+@export var player: Player
+
 @onready var ability_bar: HBoxContainer = $MainLayout/AbilityBar
 @onready var player_health_bar: ProgressBar = $MainLayout/PlayerStats/PlayerHealthBar
 @onready var player_health_label: Label = $MainLayout/PlayerStats/PlayerHealthLabel
@@ -9,6 +11,12 @@ class_name HUD
 
 func _ready() -> void:
 	player_health_bar.max_value = 100 # Assuming max health for now
+		
+	player.connect("health_changed", update_player_health)
+	player.connect("status_effect_applied", add_player_effect)
+	player.connect("status_effect_removed", remove_player_effect)
+	player.connect("abilities_setup", setup_abilities)
+	player.connect("abilities_updated", update_abilities)
 	
 	# Clear editor placeholders
 	_clear_placeholders(player_status_bar)
@@ -25,8 +33,8 @@ func add_player_effect(effect: StatusEffect) -> void:
 	print("HUD: Adding player effect %s" % effect.name)
 	player_status_bar.add_effect(effect.name, effect.icon, effect.duration)
 
-func remove_player_effect(effect_name: String) -> void:
-	player_status_bar.remove_effect(effect_name)
+func remove_player_effect(effect: StatusEffect) -> void:
+	player_status_bar.remove_effect(effect.name)
 
 func setup_abilities(abilities: Array) -> void:
 	ability_bar.setup(abilities)

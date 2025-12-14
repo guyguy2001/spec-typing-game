@@ -3,13 +3,13 @@ extends Resource
 class_name StatusEffect
 
 # Represents the type of status effect (beneficial or detrimental).
-enum StatusEffectType { BUFF, DEBUFF }
+enum StatusEffectType {BUFF, DEBUFF}
 
 # Represents the type of attribute modified by the status effect.
-enum ModifierType { DAMAGE, SPEED, DEFENSE, GENERIC_EFFECT_VALUE, HEALTH_CHANGE }
+enum ModifierType {DAMAGE, SPEED, DEFENSE, GENERIC_EFFECT_VALUE, HEALTH_CHANGE}
 
 @export var name: String = ""
-var icon: Texture2D
+@export var icon: Texture2D
 @export var type: StatusEffectType = StatusEffectType.BUFF
 
 # Use a setter to ensure time_remaining is always synced with duration upon initialization

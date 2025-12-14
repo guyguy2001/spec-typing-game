@@ -2,7 +2,6 @@
 extends Node2D
 
 @onready var player: Player = $Player
-@onready var hud: HUD = $HUD
 @onready var respawn_timer: Timer = $RespawnTimer
 @onready var input_handler: InputHandler = $InputHandler
 
@@ -11,51 +10,42 @@ extends Node2D
 @export var target_indicator_scene: PackedScene
 
 const FloatingTextScene = preload("res://src/ui/floating_text.tscn")
-const EnemyAttackAbility = preload("res://src/abilities/enemy_attack.gd")
 
 var enemies: Array[Enemy] = []
 var target_indicator: TargetIndicator = null
 var spawn_points: Array[Node] = []
 
 func _ready() -> void:
-	if player and hud:
-		player.connect("damage_taken", Callable(self, "_on_damage_taken").bind(player))
-		player.connect("died", Callable(self, "_on_player_died"))
-		
-		player.connect("health_changed", Callable(hud, "update_player_health"))
-		player.connect("status_effect_applied", Callable(hud, "add_player_effect"))
-		player.connect("status_effect_removed", Callable(hud, "remove_player_effect"))
-		player.connect("abilities_setup", Callable(hud, "setup_abilities"))
-		player.connect("abilities_updated", Callable(hud, "update_abilities"))
-		
-		if respawn_timer:
-			respawn_timer.one_shot = true
-			respawn_timer.wait_time = 1.0 # 1 second delay before respawning
-			respawn_timer.connect("timeout", Callable(self, "_on_respawn_timer_timeout"))
-		else:
-			push_error("Arena: RespawnTimer node not found! Please add a Timer node named 'RespawnTimer' in the scene.")
-		
-		# Tab targeting
-		if input_handler:
-			input_handler.connect("tab_pressed", Callable(self, "cycle_target"))
-		
-		# Get spawn points
-		spawn_points = get_tree().get_nodes_in_group("spawn_point")
-		
-		# Spawn initial enemies
-		spawn_enemy(spawn_points[0].position)
-		spawn_enemy(spawn_points[1].position)
-		
-		# Setup Target Indicator
-		if target_indicator_scene:
-			target_indicator = target_indicator_scene.instantiate() as TargetIndicator
-			add_child(target_indicator)
-			# Initial target
-			if not enemies.is_empty():
-				_set_player_target(enemies[0])
-		
+	target_indicator = target_indicator_scene.instantiate() as TargetIndicator
+	add_child(target_indicator)
+
+	player.connect("damage_taken", Callable(self, "_on_damage_taken").bind(player))
+	player.connect("died", Callable(self, "_on_player_died"))
+	player.target_changed.connect(_on_player_target_changed)
+	
+	if respawn_timer:
+		respawn_timer.one_shot = true
+		respawn_timer.wait_time = 1.0 # 1 second delay before respawning
+		respawn_timer.connect("timeout", Callable(self, "_on_respawn_timer_timeout"))
 	else:
-		push_error("Arena: Player or HUD node not found!")
+		push_error("Arena: RespawnTimer node not found! Please add a Timer node named 'RespawnTimer' in the scene.")
+	
+	# Tab targeting
+	if input_handler:
+		input_handler.connect("tab_pressed", Callable(self, "cycle_target"))
+	
+	# Get spawn points
+	spawn_points = get_tree().get_nodes_in_group("spawn_point")
+	
+	# Spawn initial enemies
+	spawn_enemy(spawn_points[0].position)
+	spawn_enemy(spawn_points[1].position)
+	
+	if not enemies.is_empty():
+		_set_player_target(enemies[0])
+
+func _on_player_target_changed(target: Character):
+	target_indicator.target_node = target
 
 func spawn_enemy(spawn_pos: Vector2 = Vector2(800, 500)) -> void:
 	if not enemy_scene:
@@ -63,16 +53,10 @@ func spawn_enemy(spawn_pos: Vector2 = Vector2(800, 500)) -> void:
 		return
 	
 	var new_enemy: Enemy = enemy_scene.instantiate()
-	var enemy_ai: EnemyAIController = new_enemy.find_child("EnemyAIController")
 	
 	add_child(new_enemy)
 	new_enemy.position = spawn_pos
 	new_enemy.character_name = "Enemy %d" % enemies.size()
-	
-	if enemy_ai:
-		enemy_ai.set_target(player)
-		enemy_ai.attack_ability = EnemyAttackAbility.new() # Assign the ability instance
-		enemy_ai.start_attack_timer() # Start timer after adding to tree
 	
 	player.target_enemy = new_enemy # Set player's target to the new enemy
 	
@@ -95,9 +79,6 @@ func cycle_target() -> void:
 
 func _set_player_target(enemy: Enemy) -> void:
 	player.target_enemy = enemy
-	
-	if target_indicator:
-		target_indicator.target_node = enemy
 
 func _on_damage_taken(amount: float, character: Character) -> void: # Signature changed
 	var text = FloatingTextScene.instantiate()

@@ -21,7 +21,3 @@ func remove_effect(effect_name: String) -> void:
 		var icon = active_icons[effect_name]
 		icon.queue_free()
 		active_icons.erase(effect_name)
-
-func _process(delta: float) -> void:
-	for icon in active_icons.values():
-		icon.update_duration(icon.duration_overlay.value - delta)
