@@ -5,7 +5,7 @@ const IconScene = preload("res://src/ui/ability_icon.tscn")
 
 var icon_map = {}
 
-func setup(abilities: Array) -> void:
+func setup(abilities: Array, input_buffer: InputBuffer) -> void:
 	for child in get_children():
 		child.queue_free()
 	icon_map.clear()
@@ -17,5 +17,5 @@ func setup(abilities: Array) -> void:
 		# Use icon from the ability resource
 		var tex = ability.icon
 		
-		icon.setup(tex, ability)
+		icon.setup(tex, ability, input_buffer)
 		icon_map[ability.name] = icon

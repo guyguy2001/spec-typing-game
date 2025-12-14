@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://7ltq8wo4j3qw" path="res://assets/sprites/ui/icons/Classes/Warrior/Guardian/Guardian8.png" id="1_e1bua"]
 [ext_resource type="Script" uid="uid://vmnllf4fixr1" path="res://src/ui/ability_icon.gd" id="1_icon"]
 [ext_resource type="Texture2D" uid="uid://cqdp3ct4tmaje" path="res://assets/sprites/ui/white_square.png" id="2_white"]
+[ext_resource type="PackedScene" path="res://src/ui/typable_label.tscn" id="3"]
 
 [node name="AbilityIcon" type="TextureRect"]
 custom_minimum_size = Vector2(48, 48)
@@ -30,7 +31,7 @@ fill_mode = 5
 nine_patch_stretch = true
 texture_progress = ExtResource("2_white")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" parent="." instance=ExtResource("3")]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0

@@ -4,6 +4,8 @@ extends Node2D
 @onready var player: Player = $Player
 @onready var respawn_timer: Timer = $RespawnTimer
 @onready var input_handler: InputHandler = $InputHandler
+@onready var input_buffer: InputBuffer # Needs to be defined in scene
+
 
 @export var enemy_scene: PackedScene
 @export var game_over_ui_scene: PackedScene # Scene for Game Over UI
@@ -16,6 +18,10 @@ var target_indicator: TargetIndicator = null
 var spawn_points: Array[Node] = []
 
 func _ready() -> void:
+	# Instantiate InputBuffer
+	input_buffer = InputBuffer.new()
+	add_child(input_buffer)
+
 	target_indicator = target_indicator_scene.instantiate() as TargetIndicator
 	add_child(target_indicator)
 
@@ -33,6 +39,10 @@ func _ready() -> void:
 	# Tab targeting
 	if input_handler:
 		input_handler.connect("tab_pressed", Callable(self, "cycle_target"))
+
+	if input_buffer:
+		input_handler.text_input.connect(input_buffer.handle_text_input)
+		input_handler.backspace_pressed.connect(input_buffer.handle_backspace)
 	
 	# Get spawn points
 	spawn_points = get_tree().get_nodes_in_group("spawn_point")
@@ -40,6 +50,9 @@ func _ready() -> void:
 	# Spawn initial enemies
 	spawn_enemy(spawn_points[0].position)
 	spawn_enemy(spawn_points[1].position)
+
+	# Connect input buffer to HUD
+	get_node("HUD").connect_input_signals(input_buffer)
 	
 	if not enemies.is_empty():
 		_set_player_target(enemies[0])

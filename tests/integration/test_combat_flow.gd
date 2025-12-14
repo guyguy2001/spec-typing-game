@@ -35,7 +35,7 @@ func test_damage_ability():
 	
 	# --- Now test enemy attacking player ---
 	# Allow time for enemy's timer to trigger attack (wait_time is 3.0s)
-	yield_for(4.0) 
+	wait_seconds(4.0) 
 	enemy_ai._on_attack_timer_timeout() # Manually trigger attack for test
 	
 	# Assert player health decreased after enemy's cast
