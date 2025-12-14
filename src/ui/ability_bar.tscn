@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://dqce8abtbi2lv"]
 
-[ext_resource type="Script" path="res://src/ui/ability_bar.gd" id="1_bar"]
+[ext_resource type="Script" uid="uid://rwd2fuyeaasa" path="res://src/ui/ability_bar.gd" id="1_bar"]
+[ext_resource type="PackedScene" uid="uid://11wnppbc5tx0" path="res://src/ui/ability_icon.tscn" id="2_mrd32"]
 
 [node name="AbilityBar" type="HBoxContainer"]
 anchors_preset = 7
@@ -17,3 +18,9 @@ grow_vertical = 0
 theme_override_constants/separation = 8
 alignment = 1
 script = ExtResource("1_bar")
+
+[node name="AbilityIcon" parent="." instance=ExtResource("2_mrd32")]
+layout_mode = 2
+
+[node name="AbilityIcon2" parent="." instance=ExtResource("2_mrd32")]
+layout_mode = 2

@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bu6da32lekbo8" path="res://src/characters/enemy.tscn" id="2_bbbbb"]
 [ext_resource type="Script" uid="uid://di3sc4j537bte" path="res://src/core/state_machine.gd" id="3_ccccc"]
 [ext_resource type="Script" uid="uid://8q0tllrdpqxg" path="res://src/core/input_handler.gd" id="4_ddddd"]
-[ext_resource type="PackedScene" path="res://src/ui/hud.tscn" id="5_eeeee"]
+[ext_resource type="PackedScene" uid="uid://g0vnefivecbt" path="res://src/ui/hud.tscn" id="5_eeeee"]
 [ext_resource type="Script" uid="uid://btpks6xxmuk6u" path="res://src/core/arena.gd" id="6_fffff"]
 [ext_resource type="PackedScene" path="res://src/ui/game_over.tscn" id="7_game_over"]
 [ext_resource type="PackedScene" path="res://src/ui/target_indicator.tscn" id="8_target_ind"]
@@ -37,10 +37,6 @@ script = ExtResource("4_ddddd")
 
 [node name="HUD" parent="." node_paths=PackedStringArray("player") instance=ExtResource("5_eeeee")]
 player = NodePath("../Player")
-
-[node name="Control" type="Panel" parent="HUD"]
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="RespawnTimer" type="Timer" parent="."]
 one_shot = true

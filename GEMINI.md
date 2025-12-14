@@ -21,6 +21,7 @@ tests/
 ### Post Task Validations
 
 After completing a task, before moving to the next one, and before committing, run the tests in the repo to make sure the code works correctly.
+The command for that is `& "C:\Users\User\.local\bin\Godot_v4.5.1-stable_win64_console.exe" --headless -s addons/gut/gut_cmdln.gd -gdir tests/unit -gexit -gtest <test-files>`
 
 ## Commands
 

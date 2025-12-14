@@ -6,7 +6,6 @@ class_name HUD
 
 @onready var ability_bar: HBoxContainer = $MainLayout/AbilityBar
 @onready var player_health_bar: ProgressBar = $MainLayout/PlayerStats/PlayerHealthBar
-@onready var player_health_label: Label = $MainLayout/PlayerStats/PlayerHealthLabel
 @onready var player_status_bar: HBoxContainer = $MainLayout/PlayerStats/StatusBar
 
 func _ready() -> void:
@@ -26,7 +25,6 @@ func _clear_placeholders(container: Node) -> void:
 
 func update_player_health(new_health: float) -> void:
 	player_health_bar.value = new_health
-	player_health_label.text = "Player Health: %d" % new_health
 
 func add_player_effect(effect: StatusEffect) -> void:
 	print("HUD: Adding player effect %s" % effect.name)

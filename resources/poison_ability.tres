@@ -9,7 +9,7 @@
 script = ExtResource("1_y4jis")
 icon = ExtResource("3_m7mhn")
 type = 1
-duration = 3.0
+duration = 10.0
 modifier_type = 0
 modifier_value = 2.0
 tick_interval = 1.0

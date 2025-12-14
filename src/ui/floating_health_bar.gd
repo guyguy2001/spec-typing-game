@@ -17,6 +17,10 @@ func _ready() -> void:
 	character.connect("status_effect_applied", Callable(self, "_add_status_effect"))
 	character.connect("status_effect_removed", Callable(self, "_remove_status_effect"))
 
+	# Remove placeholders
+	for child in status_bar.get_children():
+		child.queue_free()
+
 func _update_health(max_health: float, new_health: float) -> void:
 	max_value = max_health
 	value = new_health
