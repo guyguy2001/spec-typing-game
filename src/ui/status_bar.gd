@@ -3,22 +3,25 @@ extends HBoxContainer
 
 const StatusIconScene = preload("res://src/ui/status_icon.tscn")
 
-# Dictionary to map effect names to their icon nodes
 var active_icons: Dictionary = {}
 
-func add_effect(effect_name: String, is_buff: bool = true) -> void:
+func add_effect(effect_name: String, is_buff: bool, duration: float) -> void:
 	if active_icons.has(effect_name):
-		return # Already showing
+		var icon = active_icons[effect_name]
+		icon.setup(effect_name, is_buff, duration)
+		return
 		
 	var icon = StatusIconScene.instantiate()
 	add_child(icon)
-	icon.setup(effect_name, is_buff)
+	icon.setup(effect_name, is_buff, duration)
 	active_icons[effect_name] = icon
-	print("Added icon %s" % icon)
 
 func remove_effect(effect_name: String) -> void:
-	print("Removing %s" % effect_name)
 	if active_icons.has(effect_name):
 		var icon = active_icons[effect_name]
 		icon.queue_free()
 		active_icons.erase(effect_name)
+
+func _process(delta: float) -> void:
+	for icon in active_icons.values():
+		icon.update_duration(icon.duration_overlay.value - delta)

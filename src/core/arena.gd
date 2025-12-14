@@ -79,12 +79,6 @@ func spawn_enemy(spawn_pos: Vector2 = Vector2(800, 500)) -> void:
 	new_enemy.connect("damage_taken", Callable(self, "_on_damage_taken").bind(new_enemy))
 	new_enemy.connect("died", Callable(self, "_on_enemy_died").bind(new_enemy))
 	
-	if hud:
-		# Note: HUD currently only supports ONE enemy health bar.
-		# For multi-enemy, we ideally need dynamically targeted health bar.
-		# For MVP, we will only connect the CURRENT target's health to HUD in _set_player_target
-		pass
-	
 	enemies.append(new_enemy)
 	
 	# Auto-target if it's the first one
@@ -100,33 +94,10 @@ func cycle_target() -> void:
 	_set_player_target(enemies[next_index])
 
 func _set_player_target(enemy: Enemy) -> void:
-	# Disconnect HUD from old target
-	if player.target_enemy and is_instance_valid(player.target_enemy):
-		if player.target_enemy.is_connected("health_changed", Callable(hud, "update_enemy_health")):
-			player.target_enemy.disconnect("health_changed", Callable(hud, "update_enemy_health"))
-		if player.target_enemy.is_connected("status_effect_applied", Callable(hud, "add_enemy_effect")):
-			player.target_enemy.disconnect("status_effect_applied", Callable(hud, "add_enemy_effect"))
-		if player.target_enemy.is_connected("status_effect_removed", Callable(hud, "remove_enemy_effect")):
-			player.target_enemy.disconnect("status_effect_removed", Callable(hud, "remove_enemy_effect"))
-
 	player.target_enemy = enemy
 	
 	if target_indicator:
 		target_indicator.target_node = enemy
-	
-	# Connect HUD to new target
-	if enemy:
-		enemy.connect("health_changed", Callable(hud, "update_enemy_health"))
-		enemy.connect("status_effect_applied", Callable(hud, "add_enemy_effect"))
-		enemy.connect("status_effect_removed", Callable(hud, "remove_enemy_effect"))
-		
-		# Force HUD update
-		hud.update_enemy_health(enemy.health)
-		# NOTE: HUD status bar doesn't clear on switch, might be confusing. 
-		# Ideally clear enemy status bar on switch.
-		# We need a clear method in HUD. I'll assume I can access enemy_status_bar via a method or property.
-		# Or just emit "status_effect_removed" for all old effects? Too complex for now.
-		# Let's just update health.
 
 func _on_damage_taken(amount: float, character: Character) -> void: # Signature changed
 	var text = FloatingTextScene.instantiate()
@@ -139,13 +110,6 @@ func _on_enemy_died(enemy_node: Enemy) -> void:
 	# Disconnect from the dying enemy
 	enemy_node.disconnect("damage_taken", Callable(self, "_on_damage_taken").bind(enemy_node))
 	enemy_node.disconnect("died", Callable(self, "_on_enemy_died").bind(enemy_node))
-	if hud:
-		if enemy_node.is_connected("health_changed", Callable(hud, "update_enemy_health")):
-			enemy_node.disconnect("health_changed", Callable(hud, "update_enemy_health"))
-		if enemy_node.is_connected("status_effect_applied", Callable(hud, "add_enemy_effect")):
-			enemy_node.disconnect("status_effect_applied", Callable(hud, "add_enemy_effect"))
-		if enemy_node.is_connected("status_effect_removed", Callable(hud, "remove_enemy_effect")):
-			enemy_node.disconnect("status_effect_removed", Callable(hud, "remove_enemy_effect"))
 	
 	enemies.erase(enemy_node)
 	

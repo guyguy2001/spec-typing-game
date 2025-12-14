@@ -12,7 +12,7 @@ var active_status_effects: Array[StatusEffect] = []
 signal health_changed(new_health: float)
 signal damage_taken(amount: float)
 signal died()
-signal status_effect_applied(effect_name: String)
+signal status_effect_applied(effect: StatusEffect)
 signal status_effect_removed(effect_name: String)
 
 
@@ -38,7 +38,7 @@ func apply_status_effect(effect: StatusEffect) -> void:
 	
 	active_status_effects.append(effect)
 	print("%s applied status effect: %s" % [character_name, effect.name])
-	emit_signal("status_effect_applied", effect.name)
+	emit_signal("status_effect_applied", effect)
 
 func remove_status_effect(effect_name: String) -> void:
 	var index_to_remove = -1
