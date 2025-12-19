@@ -3,11 +3,11 @@
 [ext_resource type="PackedScene" uid="uid://c2vc6r7uq8daq" path="res://src/characters/player.tscn" id="1_aaaaa"]
 [ext_resource type="PackedScene" uid="uid://bu6da32lekbo8" path="res://src/characters/enemy.tscn" id="2_bbbbb"]
 [ext_resource type="Script" uid="uid://di3sc4j537bte" path="res://src/core/state_machine.gd" id="3_ccccc"]
-[ext_resource type="Script" uid="uid://8q0tllrdpqxg" path="res://src/core/input_handler.gd" id="4_ddddd"]
 [ext_resource type="PackedScene" uid="uid://g0vnefivecbt" path="res://src/ui/hud.tscn" id="5_eeeee"]
 [ext_resource type="Script" uid="uid://btpks6xxmuk6u" path="res://src/core/arena.gd" id="6_fffff"]
 [ext_resource type="PackedScene" path="res://src/ui/game_over.tscn" id="7_game_over"]
 [ext_resource type="PackedScene" path="res://src/ui/target_indicator.tscn" id="8_target_ind"]
+[ext_resource type="Script" uid="uid://vy1v8bfd568o" path="res://src/core/input_buffer.gd" id="9_bsykg"]
 [ext_resource type="Texture2D" uid="uid://bsps7dbic47to" path="res://sprites/background2.jpg" id="10_lnyqv"]
 
 [node name="Arena" type="Node2D"]
@@ -26,17 +26,16 @@ mouse_filter = 2
 texture = ExtResource("10_lnyqv")
 expand_mode = 1
 
-[node name="Player" parent="." instance=ExtResource("1_aaaaa")]
+[node name="Player" parent="." node_paths=PackedStringArray("input_buffer") instance=ExtResource("1_aaaaa")]
 position = Vector2(288, 536)
+input_buffer = NodePath("../InputBuffer")
 
 [node name="GameStateMachine" type="Node" parent="."]
 script = ExtResource("3_ccccc")
 
-[node name="InputHandler" type="Node" parent="."]
-script = ExtResource("4_ddddd")
-
-[node name="HUD" parent="." node_paths=PackedStringArray("player") instance=ExtResource("5_eeeee")]
+[node name="HUD" parent="." node_paths=PackedStringArray("player", "input_buffer") instance=ExtResource("5_eeeee")]
 player = NodePath("../Player")
+input_buffer = NodePath("../InputBuffer")
 
 [node name="RespawnTimer" type="Timer" parent="."]
 one_shot = true
@@ -52,6 +51,6 @@ position = Vector2(645, 404)
 [node name="Node2D3" type="Node2D" parent="SpawnPoints" groups=["spawn_point"]]
 position = Vector2(538, 384)
 
-[connection signal="backspace_pressed" from="InputHandler" to="Player" method="_on_input_handler_backspace_pressed"]
-[connection signal="space_pressed" from="InputHandler" to="Player" method="_on_input_handler_space_pressed"]
-[connection signal="text_input" from="InputHandler" to="Player" method="_on_input_handler_text_input"]
+[node name="InputBuffer" type="Node" parent="."]
+script = ExtResource("9_bsykg")
+metadata/_custom_type_script = "uid://vy1v8bfd568o"

@@ -20,33 +20,22 @@ func on_input_changed(current_input: String) -> void:
 	last_input = current_input
 	update_text_display(current_input)
 
+# static
+func _get_colored_text(label_text: String, typed_text: String):
+	var active_color_code = active_color.to_html(false).to_upper()
+	var default_color_code = default_color.to_html(false).to_upper()
+	if typed_text.is_empty() or not label_text.begins_with(typed_text):
+		return "[color=#%s]%s[/color]" % [default_color.to_html(false).to_upper(), target_text]
+	var matched_part = label_text.substr(0, typed_text.length())
+	var remaining_part = label_text.substr(typed_text.length())
+	return "[color=#%s]%s[/color][color=#%s]%s[/color]" % [
+		active_color_code, matched_part,
+		default_color_code, remaining_part
+	]
+
 func update_text_display(current_input: String) -> void:
 	if target_text.is_empty():
 		self.text = ""
 		return
 
-	var bbcode_text: String
-	var is_prefix_match = true
-	
-	if current_input.length() > target_text.length():
-		is_prefix_match = false
-	else:
-		for i in range(current_input.length()):
-			if current_input[i] != target_text[i]:
-				is_prefix_match = false
-				break
-
-	if current_input.is_empty(): # Handle empty input separately, as per previous logic
-		bbcode_text = "[color=#%s]%s[/color]" % [default_color.to_html(false).to_upper(), target_text]
-	elif is_prefix_match: # This replaces the 'begins_with' check
-		var matched_part = target_text.substr(0, current_input.length())
-		var remaining_part = target_text.substr(current_input.length())
-		bbcode_text = "[color=#%s]%s[/color][color=#%s]%s[/color]" % [
-			active_color.to_html(false).to_upper(), matched_part,
-			default_color.to_html(false).to_upper(), remaining_part
-		]
-	else:
-		# If input does not match prefix, display full target text in default color
-		bbcode_text = "[color=#%s]%s[/color]" % [default_color.to_html(false).to_upper(), target_text]
-	
-	self.text = bbcode_text
+	self.text = _get_colored_text(target_text, current_input)
