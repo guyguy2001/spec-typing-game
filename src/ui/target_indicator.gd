@@ -22,7 +22,7 @@ func _ready() -> void:
 		hide()
 	queue_redraw() # Initial draw
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if target_node:
 		_update_position()
 	elif is_visible_in_tree():
