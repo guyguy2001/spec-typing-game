@@ -57,7 +57,7 @@ func get_health() -> float:
 func _process(delta: float) -> void:
 	_process_status_effects(delta)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	pass # To be implemented by subclasses (Player/Enemy)
 
 func _process_status_effects(delta: float) -> void:

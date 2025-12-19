@@ -13,6 +13,7 @@ var target_enemy: Character = null: # Will be set by the arena scene
 		target_changed.emit(value)
 
 signal target_changed(target: Character)
+@warning_ignore("UNUSED_SIGNAL") # I still wanted to wire the UI to it
 signal abilities_changed(abilities: Array)
 
 func _ready() -> void:
