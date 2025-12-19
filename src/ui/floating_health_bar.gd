@@ -6,38 +6,11 @@ const StatusIconScene = preload("res://src/ui/status_icon.tscn")
 
 @export var character: Character
 
-@onready var status_bar: HBoxContainer = $StatusBar
-
-var active_icons: Dictionary[String, StatusEffectIcon] = {}
-
 func _ready() -> void:
 	show_percentage = false
 	_update_health(character.health, character.max_health)
 	character.connect("health_changed", Callable(self, "_update_health"))
-	character.connect("status_effect_applied", Callable(self, "_add_status_effect"))
-	character.connect("status_effect_removed", Callable(self, "_remove_status_effect"))
-
-	# Remove placeholders
-	for child in status_bar.get_children():
-		child.queue_free()
 
 func _update_health(max_health: float, new_health: float) -> void:
 	max_value = max_health
 	value = new_health
-
-func _add_status_effect(effect: StatusEffect) -> void:
-	if active_icons.has(effect.name):
-		active_icons[effect.name].setup(effect)
-		return
-
-	var icon = StatusIconScene.instantiate()
-	status_bar.add_child(icon)
-	icon.setup(effect)
-	active_icons[effect.name] = icon
-
-func _remove_status_effect(effect: StatusEffect) -> void:
-	print("Remove", effect.name)
-	if active_icons.has(effect.name):
-		var icon = active_icons[effect.name]
-		icon.queue_free()
-		active_icons.erase(effect.name)

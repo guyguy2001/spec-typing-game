@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bu6da32lekbo8"]
+[gd_scene load_steps=8 format=3 uid="uid://bu6da32lekbo8"]
 
 [ext_resource type="Script" uid="uid://dg6aagy552i5i" path="res://src/characters/enemy.gd" id="1_cde34"]
 [ext_resource type="PackedScene" path="res://src/ai/enemy_ai_controller.tscn" id="2_ai_scene"]
 [ext_resource type="Texture2D" uid="uid://becxoy4il3acl" path="res://sprites/orc.tres" id="2_ndt6u"]
-[ext_resource type="PackedScene" path="res://src/ui/floating_health_bar.tscn" id="5_health_bar"]
+[ext_resource type="PackedScene" uid="uid://cqfgbwkjhveyk" path="res://src/ui/status_bar.tscn" id="4_wibs8"]
+[ext_resource type="PackedScene" uid="uid://dk4ulnmo1bow0" path="res://src/ui/floating_health_bar.tscn" id="5_health_bar"]
 [ext_resource type="Resource" uid="uid://dg8pdn5pabseg" path="res://resources/slash.tres" id="5_ndt6u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_enemy_collision"]
@@ -20,9 +21,30 @@ texture = ExtResource("2_ndt6u")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_enemy_collision")
 
-[node name="FloatingHealthBar" parent="." node_paths=PackedStringArray("character") instance=ExtResource("5_health_bar")]
-character = NodePath("..")
-metadata/_edit_use_anchors_ = true
+[node name="FloatingUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -34.0
+offset_top = -95.0
+offset_right = 34.0
+offset_bottom = -50.0
+
+[node name="FloatingHealthBar" parent="FloatingUI" node_paths=PackedStringArray("character") instance=ExtResource("5_health_bar")]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 35.0
+offset_right = 66.0
+offset_bottom = 43.0
+character = NodePath("../..")
+
+[node name="StatusBar" parent="FloatingUI" node_paths=PackedStringArray("character") instance=ExtResource("4_wibs8")]
+layout_mode = 0
+offset_left = 2.9999995
+offset_top = 12.999997
+offset_right = 203.0
+offset_bottom = 44.999996
+scale = Vector2(0.61455864, 0.61455864)
+character = NodePath("../..")
 
 [node name="EnemyAIController" parent="." instance=ExtResource("2_ai_scene")]
 attack_ability = ExtResource("5_ndt6u")

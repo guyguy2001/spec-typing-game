@@ -1,9 +1,13 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://cqfgbwkjhveyk"]
 
-[ext_resource type="Script" path="res://src/ui/status_bar.gd" id="1_bar"]
+[ext_resource type="Script" uid="uid://b6mhfu5hr3exo" path="res://src/ui/status_bar.gd" id="1_bar"]
+[ext_resource type="PackedScene" uid="uid://bwp4i23e2pkvj" path="res://src/ui/status_icon.tscn" id="2_fl8pg"]
 
 [node name="StatusBar" type="HBoxContainer"]
 offset_right = 200.0
 offset_bottom = 32.0
 theme_override_constants/separation = 4
 script = ExtResource("1_bar")
+
+[node name="StatusIcon" parent="." instance=ExtResource("2_fl8pg")]
+layout_mode = 2

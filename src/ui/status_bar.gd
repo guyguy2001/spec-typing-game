@@ -3,7 +3,17 @@ extends HBoxContainer
 
 const StatusIconScene = preload("res://src/ui/status_icon.tscn")
 
+@export var character: Character
+
 var active_icons: Dictionary = {}
+
+func _ready() -> void:
+	# Remove placeholders
+	for child in get_children():
+		child.queue_free()
+
+	character.status_effect_applied.connect(add_effect)
+	character.status_effect_removed.connect(remove_effect)
 
 func add_effect(effect: StatusEffect) -> void:
 	if active_icons.has(effect.name):
@@ -17,8 +27,8 @@ func add_effect(effect: StatusEffect) -> void:
 	icon.setup(effect)
 	active_icons[effect.name] = icon
 
-func remove_effect(effect_name: String) -> void:
-	if active_icons.has(effect_name):
-		var icon = active_icons[effect_name]
+func remove_effect(effect: StatusEffect) -> void:
+	if active_icons.has(effect.name):
+		var icon = active_icons[effect.name]
 		icon.queue_free()
-		active_icons.erase(effect_name)
+		active_icons.erase(effect.name)

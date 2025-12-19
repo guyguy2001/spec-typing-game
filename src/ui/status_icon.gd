@@ -19,5 +19,3 @@ func setup(p_effect: StatusEffect) -> void:
 
 func _process(_delta: float) -> void:
 	duration_overlay.value = effect.time_remaining
-	if duration_overlay.value <= 0:
-		modulate.a = 0.5 # Visual cue that it's expiring

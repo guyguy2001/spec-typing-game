@@ -1,8 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dk4ulnmo1bow0"]
+[gd_scene load_steps=4 format=3 uid="uid://dk4ulnmo1bow0"]
 
 [ext_resource type="Script" uid="uid://d3iw2fm1oju5h" path="res://src/ui/floating_health_bar.gd" id="1_health_bar"]
-[ext_resource type="PackedScene" path="res://src/ui/status_icon.tscn" id="2_l5v6m"]
-[ext_resource type="Texture2D" uid="uid://7ltq8wo4j3qw" path="res://assets/sprites/ui/icons/Classes/Warrior/Guardian/Guardian8.png" id="3_20srd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
 bg_color = Color(0.1, 0.1, 0.1, 1)
@@ -29,16 +27,3 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_fill")
 value = 100.0
 show_percentage = false
 script = ExtResource("1_health_bar")
-
-[node name="StatusBar" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_top = -34.0
-offset_bottom = -2.0
-grow_horizontal = 2
-alignment = 1
-
-[node name="StatusIcon" parent="StatusBar" instance=ExtResource("2_l5v6m")]
-layout_mode = 2
-texture = ExtResource("3_20srd")

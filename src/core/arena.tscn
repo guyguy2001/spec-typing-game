@@ -37,6 +37,9 @@ script = ExtResource("3_ccccc")
 player = NodePath("../Player")
 input_buffer = NodePath("../InputBuffer")
 
+[node name="StatusBar" parent="HUD/MainLayout/PlayerStats" index="0" node_paths=PackedStringArray("character")]
+character = NodePath("../../../../Player")
+
 [node name="RespawnTimer" type="Timer" parent="."]
 one_shot = true
 
@@ -54,3 +57,8 @@ position = Vector2(538, 384)
 [node name="InputBuffer" type="Node" parent="."]
 script = ExtResource("9_bsykg")
 metadata/_custom_type_script = "uid://vy1v8bfd568o"
+
+[node name="Enemy" parent="." instance=ExtResource("2_bbbbb")]
+position = Vector2(715, 524)
+
+[editable path="HUD"]
