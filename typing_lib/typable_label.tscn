@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://src/ui/typable_label.gd" id="1"]
+[ext_resource type="Script" path="res://typing_lib/typable_label.gd" id="1"]
 
 [node name="TypableLabel" type="RichTextLabel"]
 script = ExtResource("1")

@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://g0vnefivecbt"]
 
 [ext_resource type="Script" uid="uid://c3h27pbdpsitc" path="res://src/ui/hud.gd" id="1_ghijk"]
-[ext_resource type="PackedScene" path="res://src/ui/status_bar.tscn" id="2_status_bar"]
-[ext_resource type="PackedScene" path="res://src/ui/status_icon.tscn" id="3_status_icon"]
+[ext_resource type="PackedScene" uid="uid://cqfgbwkjhveyk" path="res://src/ui/status_bar.tscn" id="2_status_bar"]
+[ext_resource type="PackedScene" uid="uid://bwp4i23e2pkvj" path="res://src/ui/status_icon.tscn" id="3_status_icon"]
 [ext_resource type="PackedScene" uid="uid://dqce8abtbi2lv" path="res://src/ui/ability_bar.tscn" id="4_ability_bar"]
-[ext_resource type="PackedScene" path="res://src/ui/input_feedback_bar.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://dkn8qucpyi1xk" path="res://typing_lib/input_feedback_bar.tscn" id="5"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_ghijk")
